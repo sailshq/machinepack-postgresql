@@ -12,7 +12,9 @@ module.exports = {
     manager: {
       friendlyName: 'Manager',
       description: 'The connection manager instance to destroy.',
-      extendedDescription: 'Only managers built using the `createManager()` method of this driver are supported.  Also, the database connection manager instance provided must not have already been destroyed--i.e. once `destroyManager()` is called on a manager, it cannot be destroyed again (also note that all existing connections become inactive).',
+      extendedDescription: 'Only managers built using the `createManager()` method of this driver are supported. Also, ' +
+        'the database connection manager instance provided must not have already been destroyed--i.e. once `destroyManager()` ' +
+        'is called on a manager, it cannot be destroyed again (also note that all existing connections become inactive).',
       example: '===',
       required: true
     },
@@ -42,11 +44,12 @@ module.exports = {
       friendlyName: 'Failed',
       description: 'Could not destroy the provided connection manager.',
       extendedDescription:
-        'Usually, this means the manager has already been destroyed.  But depending on the driver ' +
-        'it could also mean that database cannot be accessed.  In production, this can mean that the database ' +
+        'Usually, this means the manager has already been destroyed. But depending on the driver ' +
+        'it could also mean that database cannot be accessed. In production, this can mean that the database ' +
         'server(s) became overwhelemed or were shut off while some business logic was in progress.',
       outputVariableName: 'report',
-      outputDescription: 'The `error` property is a JavaScript Error instance with more information and a stack trace.  The `meta` property is reserved for custom driver-specific extensions.',
+      outputDescription: 'The `error` property is a JavaScript Error instance with more information and a stack trace. ' +
+        'The `meta` property is reserved for custom driver-specific extensions.',
       example: {
         error: '===',
         meta: '==='
@@ -60,7 +63,8 @@ module.exports = {
     inputs.manager.pool.end(function cb(err) {
       if (err) {
         return exits.failed({
-          error: new Error('Failed to destroy the MySQL connection pool and/or gracefully end all connections in the pool.  Details:\n=== === ===\n' + err.stack)
+          error: new Error('Failed to destroy the MySQL connection pool and/or gracefully end all connections in the pool. ' +
+          'Details:\n=== === ===\n' + err.stack)
         });
       }
 
