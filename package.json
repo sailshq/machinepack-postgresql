@@ -19,9 +19,9 @@
   "author": "The Treeline Company",
   "license": "MIT",
   "dependencies": {
-    "pg": "4.4.6"
     "machine": "12.4.0",
     "machinepack-sql-builder": "treelinehq/waterline-query-builder",
+    "pg": "6.1.0"
   },
   "devDependencies": {
     "eslint": "3.5.0",
