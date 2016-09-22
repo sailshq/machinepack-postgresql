@@ -42,9 +42,10 @@ module.exports = {
     },
 
     meta: {
-      friendlyName: 'Meta (additional options)',
-      description: 'Additional Postgres-specific options to use when connecting.',
+      friendlyName: 'Meta (custom)',
+      description: 'Additional PostgreSQL-specific options to use when connecting.',
       extendedDescription: 'If specified, should be a dictionary. If there is a conflict between something provided in the connection string, and something in `meta`, the connection string takes priority.',
+      moreInfoUrl: 'https://github.com/coopernurse/node-pool#documentation',
       example: '==='
     }
 
