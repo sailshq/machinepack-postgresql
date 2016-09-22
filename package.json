@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "machine": "12.4.0",
-    "machinepack-sql-builder": "treelinehq/waterline-query-builder",
+    "waterline-query-builder": "treelinehq/waterline-query-builder",
     "pg": "6.1.0"
   },
   "devDependencies": {
