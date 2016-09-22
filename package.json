@@ -40,7 +40,8 @@
       "begin-transaction",
       "commit-transaction",
       "rollback-transaction",
-      "compile-statement"
+      "compile-statement",
+      "create-manager",
     ],
     "implements": {
       "connectable": "1.0",
