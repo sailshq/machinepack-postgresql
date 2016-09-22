@@ -69,7 +69,7 @@ module.exports = {
 
 
   fn: function getConnection(inputs, exits) {
-    inputs.manager.pool.connect(function cb(err, connection) {
+    inputs.manager.manager.pool.connect(function cb(err, connection) {
       if (err) {
         return exits.failed({
           error: err

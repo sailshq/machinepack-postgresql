@@ -44,11 +44,15 @@ module.exports = require('machine').build({
     // (this doesn't guarantee it's still active or anything, but it does let
     //  us know that it at least _HAS_ the properly formatted methods and properties
     //  necessary for internal use in this Waterline driver)
+
+    if (!inputs.connection.connection) {
+      return exits.badConnection();
+    }
+
     return exits.success(
-      _.isObject(inputs.connection) &&
-      _.isFunction(inputs.connection.release) &&
-      _.isObject(inputs.connection.client) &&
-      _.isFunction(inputs.connection.client.query)
+      _.isObject(inputs.connection.connection) &&
+      _.isFunction(inputs.connection.connection.release) &&
+      _.isFunction(inputs.connection.connection.query)
     );
   }
 

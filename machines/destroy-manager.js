@@ -60,10 +60,10 @@ module.exports = {
 
 
   fn: function destroyManager(inputs, exits) {
-    inputs.manager.pool.end(function cb(err) {
+    inputs.manager.manager.pool.end(function cb(err) {
       if (err) {
         return exits.failed({
-          error: new Error('Failed to destroy the MySQL connection pool and/or gracefully end all connections in the pool. ' +
+          error: new Error('Failed to destroy the Postgres connection pool and/or gracefully end all connections in the pool. ' +
           'Details:\n=== === ===\n' + err.stack)
         });
       }
