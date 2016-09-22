@@ -47,5 +47,9 @@
       "queryable": "1.0",
       "transactional": "1.0"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:treelinehq/machinepack-postgresql.git"
   }
 }
