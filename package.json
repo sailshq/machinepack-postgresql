@@ -19,9 +19,10 @@
   "author": "The Treeline Company",
   "license": "MIT",
   "dependencies": {
+    "lodash": "3.10.1",
     "machine": "12.4.0",
-    "waterline-query-builder": "treelinehq/waterline-query-builder",
-    "pg": "6.1.0"
+    "pg": "6.1.0",
+    "waterline-query-builder": "treelinehq/waterline-query-builder"
   },
   "devDependencies": {
     "eslint": "3.5.0",
