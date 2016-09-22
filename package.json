@@ -42,6 +42,7 @@
       "rollback-transaction",
       "compile-statement",
       "create-manager",
+      "destroy-manager"
     ],
     "implements": {
       "connectable": "1.0",
