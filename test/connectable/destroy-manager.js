@@ -10,12 +10,12 @@ describe('Connectable ::', function() {
       Pack.createManager({
         connectionString: 'postgres://mp:mp@localhost:5432/mppg'
       })
-      .exec(function(err, result) {
+      .exec(function(err, report) {
         if (err) {
           return done(err);
         }
 
-        manager = result;
+        manager = report.manager;
         return done();
       });
     });

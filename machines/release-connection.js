@@ -69,7 +69,7 @@ module.exports = {
 
     // Release connection.
     try {
-      inputs.connection.connection.release();
+      inputs.connection.release();
     } catch (e) {
       return exits.error(e);
     }

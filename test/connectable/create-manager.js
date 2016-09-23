@@ -20,19 +20,19 @@ describe('Connectable ::', function() {
       Pack.createManager({
         connectionString: 'postgres://mp:mp@localhost:5432/mppg'
       })
-      .exec(function(err, result) {
+      .exec(function(err, report) {
         if (err) {
           return done(err);
         }
 
         // Assert that the manager has a pool object
-        assert(result.manager.pool);
+        assert(report.manager.pool);
 
         // Assert that a PG Pool is returned
-        assert(result.manager.pool instanceof pg.Pool);
+        assert(report.manager.pool instanceof pg.Pool);
 
         // Assert that the manager has a connect function
-        assert(result.manager.pool.connect);
+        assert(report.manager.pool.connect);
 
         return done();
       });

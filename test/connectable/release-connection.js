@@ -14,22 +14,22 @@ describe('Connectable ::', function() {
       Pack.createManager({
         connectionString: 'postgres://mp:mp@' + host + ':5432/mppg'
       })
-      .exec(function(err, result) {
+      .exec(function(err, report) {
         if (err) {
           return done(err);
         }
 
-        manager = result;
+        manager = report.manager;
 
         Pack.getConnection({
           manager: manager
         })
-        .exec(function(err, result) {
+        .exec(function(err, report) {
           if (err) {
             return done(err);
           }
 
-          connection = result;
+          connection = report.connection;
           return done();
         });
       });
@@ -49,8 +49,8 @@ describe('Connectable ::', function() {
         // https://github.com/coopernurse/node-pool#pool-info
         //
         // It's a little bit like inception here digging into manager.manager.pool.pool
-        var poolSize = manager.manager.pool.pool.getPoolSize();
-        var availableObjects = manager.manager.pool.pool.availableObjectsCount();
+        var poolSize = manager.pool.pool.getPoolSize();
+        var availableObjects = manager.pool.pool.availableObjectsCount();
 
         assert.equal(poolSize, availableObjects);
 
