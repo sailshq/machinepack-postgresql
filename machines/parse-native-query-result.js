@@ -61,16 +61,36 @@ module.exports = {
 
 
   fn: function parseNativeQueryResult(inputs, exits) {
+    var _ = require('lodash');
     var normalizedResult;
+
     switch (inputs.queryType) {
       case 'select':
         normalizedResult = inputs.nativeQueryResult.rows;
         break;
 
       case 'insert':
+        // Return either an integer or an array of primary keys. It's assumed
+        // that insert queries will be run with something like `returning "id"`
+        // attached at the end. If results is empty just return an empty array.
+        // If each record contains more than one key, just include the first key.
+        var insertValues;
+
+        if (!inputs.nativeQueryResult.rows.length) {
+          insertValues = [];
+        } else {
+          insertValues = _.map(inputs.nativeQueryResult.rows, function getValue(row) {
+            return _.first(_.values(row));
+          });
+        }
+
+        // If only one item was inserted return the id of that one item
+        if (insertValues.length === 1) {
+          insertValues = _.first(insertValues);
+        }
+
         normalizedResult = {
-          inserted: inputs.nativeQueryResult.oid
-          // TODO ^validate that this actually works
+          inserted: insertValues
         };
         break;
 
