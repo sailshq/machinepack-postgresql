@@ -72,14 +72,16 @@ module.exports = {
     inputs.manager.manager.pool.connect(function cb(err, connection) {
       if (err) {
         return exits.failed({
-          error: err
+          error: err,
+          meta: inputs.meta
         });
       }
 
       // Now pass back the connection so it can be provided
       // to other methods in this driver.
       return exits.success({
-        connection: connection
+        connection: connection,
+        meta: inputs.meta
       });
     });
   }

@@ -62,7 +62,9 @@ module.exports = {
 
     // Validate provided connection.
     if (!validateConnection({ connection: inputs.connection }).execSync()) {
-      return exits.badConnection();
+      return exits.badConnection({
+        meta: inputs.meta
+      });
     }
 
     // Release connection.
@@ -72,7 +74,9 @@ module.exports = {
       return exits.error(e);
     }
 
-    return exits.success();
+    return exits.success({
+      meta: inputs.meta
+    });
   }
 
 

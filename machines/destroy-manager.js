@@ -64,12 +64,15 @@ module.exports = {
       if (err) {
         return exits.failed({
           error: new Error('Failed to destroy the Postgres connection pool and/or gracefully end all connections in the pool. ' +
-          'Details:\n=== === ===\n' + err.stack)
+          'Details:\n=== === ===\n' + err.stack),
+          meta: inputs.meta
         });
       }
 
       // All connections in the pool have ended.
-      return exits.success();
+      return exits.success({
+        meta: inputs.meta
+      });
     });
   }
 

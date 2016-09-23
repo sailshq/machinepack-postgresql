@@ -243,7 +243,8 @@ module.exports = {
     } catch (_e) {
       _e.message = util.format('Provided value (`%s`) is not a valid Postgres connection string.', inputs.connectionString) + ' Error details: ' + _e.message;
       return exits.malformed({
-        error: _e
+        error: _e,
+        meta: inputs.meta
       });
     }
 
@@ -270,12 +271,12 @@ module.exports = {
     // Finally, build and return the manager.
     var mgr = {
       pool: pool,
-      meta: inputs.meta,
       connectionString: inputs.connectionString
     };
 
     return exits.success({
-      manager: mgr
+      manager: mgr,
+      meta: inputs.meta
     });
   }
 
