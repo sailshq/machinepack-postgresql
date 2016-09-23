@@ -11,4 +11,6 @@ addons:
 env:
   - DB_USER=mp DB_PASS='mp'
 before_script:
-  - psql -c 'create database mppg;' -U mp
+  - psql -c 'create database mppg;' -U postgres
+  - psql -c "create user mp with password 'mp';"
+  - psql -c "grant all privileges on database mppg to mp;"
