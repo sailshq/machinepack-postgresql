@@ -55,7 +55,7 @@ describe('Queryable ::', function() {
           return done(err);
         }
 
-        assert(_.isArray(report.results.rows));
+        assert(_.isArray(report.result.rows));
         assert(report.result.rows.length);
 
         return done();
