@@ -52,7 +52,6 @@ describe('Queryable ::', function() {
 
     // Afterwards destroy the test table and release the connection
     after(function(done) {
-      // Create a table to use for testing
       Pack.sendNativeQuery({
         connection: connection,
         nativeQuery: 'DROP TABLE people;'
