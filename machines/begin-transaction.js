@@ -69,7 +69,7 @@ module.exports = {
     // we have confidence it will be validated before being used.
     Pack.sendNativeQuery({
       connection: inputs.connection,
-      query: 'BEGIN'
+      nativeQuery: 'BEGIN'
     }).exec({
       error: function error(err) {
         return exits.error(err);

@@ -70,7 +70,7 @@ module.exports = {
     // we have confidence it will be validated before being used.
     Pack.sendNativeQuery({
       connection: inputs.connection,
-      query: 'ROLLBACK'
+      nativeQuery: 'ROLLBACK'
     }).exec({
       error: function error(err) {
         return exits.error(err);
