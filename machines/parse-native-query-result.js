@@ -91,7 +91,8 @@ module.exports = {
     }
 
     return exits.success({
-      result: normalizedResult
+      result: normalizedResult,
+      meta: inputs.meta
     });
   }
 

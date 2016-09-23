@@ -90,17 +90,20 @@ module.exports = {
       },
       malformed: function malformed(err) {
         return exits.malformed({
-          error: err
+          error: err,
+          meta: inputs.meta
         });
       },
       notSupported: function notSupported(err) {
         return exits.notSupported({
-          error: err
+          error: err,
+          meta: inputs.meta
         });
       },
       success: function success(compiledNativeQuery) {
         return exits.success({
-          nativeQuery: compiledNativeQuery
+          nativeQuery: compiledNativeQuery,
+          meta: inputs.meta
         });
       }
     });

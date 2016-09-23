@@ -93,7 +93,6 @@ module.exports = {
       return exits.badConnection();
     }
 
-
     // Validate provided native query.
     // (supports raw SQL string or dictionary consisting of `sql` and `bindings` properties)
     var sql;
@@ -115,7 +114,10 @@ module.exports = {
     // Send native query.
     inputs.connection.query(sql, bindings, function query(err, result) {
       if (err) {
-        return exits.error(err);
+        return exits.queryFailed({
+          error: err,
+          meta: inputs.meta
+        });
       }
 
       // While we _could hypothetically_ just return `result.rows`, for
@@ -131,11 +133,7 @@ module.exports = {
           oid: result.oid,
           rows: result.rows
         },
-        // For flexibility, an unadulterated reference to this callback's
-        // arguments object is also exposed as `meta.rawArguments`.
-        meta: {
-          rawArguments: arguments
-        }
+        meta: inputs.meta
       });
     });
   }

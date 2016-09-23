@@ -72,7 +72,8 @@ module.exports = {
     // checks in the more detailed error negotiation below.
     if (!_.isObject(err) || !err.code) {
       return exits.success({
-        footprint: footprint
+        footprint: footprint,
+        meta: inputs.meta
       });
     }
 
@@ -91,7 +92,8 @@ module.exports = {
     }
 
     return exits.success({
-      footprint: footprint
+      footprint: footprint,
+      meta: inputs.meta
     });
   }
 
