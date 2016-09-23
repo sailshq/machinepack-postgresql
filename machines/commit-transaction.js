@@ -73,10 +73,15 @@ module.exports = {
         return exits.error(err);
       },
       badConnection: function badConnection(report) {
-        return exits.badConnection(report);
+        return exits.badConnection({
+          error: report,
+          meta: inputs.meta
+        });
       },
       success: function success() {
-        return exits.success();
+        return exits.success({
+          meta: inputs.meta
+        });
       }
     });
   }
