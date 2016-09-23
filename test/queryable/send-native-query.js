@@ -1,4 +1,5 @@
 var assert = require('assert');
+var _ = require('lodash');
 var Pack = require('../../');
 
 describe('Queryable ::', function() {
@@ -54,8 +55,8 @@ describe('Queryable ::', function() {
           return done(err);
         }
 
-        assert.equal(report.result.rowCount, 2);
-        assert.equal(report.result.rows.length, 2);
+        assert(_.isArray(report.results.rows));
+        assert(report.result.rows.length);
 
         return done();
       });
