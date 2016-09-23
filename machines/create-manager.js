@@ -202,7 +202,7 @@ module.exports = {
 
       // Parse port & host
       var DEFAULT_HOST = 'localhost';
-      var DEFAULT_PORT = 3306;
+      var DEFAULT_PORT = 5432;
 
       if (parsedConnectionStr.port) {
         _clientConfig.port = +parsedConnectionStr.port;
