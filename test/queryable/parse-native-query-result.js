@@ -120,9 +120,7 @@ describe('Queryable ::', function() {
 
           assert(report.result);
           assert(report.result.inserted);
-
-          // We don't know what the ID will be so just check it's a number
-          assert(_.isNumber(report.result.inserted));
+          assert(_.isArray(report.result.inserted));
 
           return done();
         });
