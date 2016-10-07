@@ -45,10 +45,11 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `nativeQuery` property is the compiled native query for the database. ' +
         'The `meta` property is reserved for custom driver-specific extensions.',
-      example: {
-        nativeQuery: '*',
-        meta: '==='
-      }
+      example: '==='
+      // example: {
+      //   nativeQuery: '*',
+      //   meta: '==='
+      // }
     },
 
     malformed: {
