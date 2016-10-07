@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "Structured Node.js bindings for Postgresql.",
   "scripts": {
-    "test": "node ./node_modules/mocha/bin/mocha --recursive",
-    "fasttest": "node ./node_modules/mocha/bin/mocha --recursive",
+    "test": "node ./node_modules/mocha/bin/mocha test/integration --recursive",
+    "fasttest": "node ./node_modules/mocha/bin/mocha test/integration --recursive",
     "pretest": "npm run lint",
     "lint": "eslint machines test",
-    "docker": "docker-compose run adapter bash"
+    "docker": "docker-compose run adapter bash",
+    "benchmark": "node ./node_modules/mocha/bin/mocha test/benchmarks --recursive"
   },
   "keywords": [
     "postgresql",
