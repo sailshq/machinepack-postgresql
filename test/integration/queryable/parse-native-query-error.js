@@ -1,6 +1,6 @@
 var assert = require('assert');
 var _ = require('lodash');
-var Pack = require('../../');
+var Pack = require('../../../');
 
 describe('Queryable ::', function() {
   describe('Parse Native Query Error', function() {
