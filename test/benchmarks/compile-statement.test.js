@@ -11,7 +11,7 @@ describe('Benchmark :: Compile Statement', function() {
   this.timeout(240000);
 
   it('should be performant enough', function() {
-    runBenchmarks('Sequelizer.execSync()', false, [
+    runBenchmarks('Compiler.execSync()', [
       function compileSelect() {
         Compiler({
           statement: {

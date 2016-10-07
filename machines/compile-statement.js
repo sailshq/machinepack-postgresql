@@ -1,3 +1,5 @@
+var SQLBuilder = require('waterline-sql-builder')({ dialect: 'postgres' });
+
 module.exports = {
 
 
@@ -45,11 +47,10 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `nativeQuery` property is the compiled native query for the database. ' +
         'The `meta` property is reserved for custom driver-specific extensions.',
-      example: '==='
-      // example: {
-      //   nativeQuery: '*',
-      //   meta: '==='
-      // }
+      example: {
+        nativeQuery: '*',
+        meta: '==='
+      }
     },
 
     malformed: {
@@ -80,14 +81,9 @@ module.exports = {
 
 
   fn: function compileStatement(inputs, exits) {
-    var SQLBuilder = require('waterline-query-builder');
-
     var compiledNativeQuery;
     try {
-      compiledNativeQuery = SQLBuilder.generateSql({
-        dialect: 'postgresql',
-        query: inputs.statement
-      }).execSync();
+      compiledNativeQuery = SQLBuilder.generate(inputs.statement);
     } catch (err) {
       if (!err.code || err.code === 'error') {
         return exits.error(err);

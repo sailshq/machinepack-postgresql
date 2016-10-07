@@ -1,14 +1,13 @@
 var _ = require('lodash');
 var Benchmark = require('benchmark');
 
-module.exports = function runBenchmarks(name, async, testFns) {
+module.exports = function runBenchmarks(name, testFns) {
   var suite = new Benchmark.Suite({
     name: name
   });
 
   _.each(testFns, function buildTest(testFn) {
     suite = suite.add(testFn.name, {
-      async: async,
       fn: testFn
     });
   });
