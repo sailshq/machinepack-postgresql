@@ -81,31 +81,37 @@ module.exports = {
   fn: function compileStatement(inputs, exits) {
     var SQLBuilder = require('waterline-query-builder');
 
-    SQLBuilder.generateSql({
-      dialect: 'postgresql',
-      query: inputs.statement
-    }).exec({
-      error: function error(err) {
+    var compiledNativeQuery;
+    try {
+      compiledNativeQuery = SQLBuilder.generateSql({
+        dialect: 'postgresql',
+        query: inputs.statement
+      }).execSync();
+    } catch (err) {
+      if (!err.code || err.code === 'error') {
         return exits.error(err);
-      },
-      malformed: function malformed(err) {
+      }
+
+      if (err.code === 'malformed') {
         return exits.malformed({
           error: err,
           meta: inputs.meta
         });
-      },
-      notSupported: function notSupported(err) {
+      }
+
+      if (err.code === 'notSupported') {
         return exits.notSupported({
           error: err,
           meta: inputs.meta
         });
-      },
-      success: function success(compiledNativeQuery) {
-        return exits.success({
-          nativeQuery: compiledNativeQuery,
-          meta: inputs.meta
-        });
       }
+
+      return exits.error(err);
+    }
+
+    return exits.success({
+      nativeQuery: compiledNativeQuery,
+      meta: inputs.meta
     });
   }
 
