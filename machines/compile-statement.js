@@ -1,4 +1,8 @@
-var SQLBuilder = require('waterline-sql-builder')({ dialect: 'postgres' });
+// Build up a SQLBuilder instance when the file is required rather than when the
+// function is run.
+var SQLBuilder = require('waterline-sql-builder')({
+  dialect: 'postgres'
+});
 
 module.exports = {
 
