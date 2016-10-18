@@ -1,6 +1,6 @@
 var assert = require('assert');
 var pg = require('pg');
-var Pack = require('../../');
+var Pack = require('../../../');
 
 describe('Connectable ::', function() {
   describe('Create Manager', function() {

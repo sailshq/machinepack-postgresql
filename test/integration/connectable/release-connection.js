@@ -1,9 +1,8 @@
 var assert = require('assert');
-var _ = require('lodash');
-var Pack = require('../../');
+var Pack = require('../../../');
 
-describe('Queryable ::', function() {
-  describe('Send Native Query', function() {
+describe('Connectable ::', function() {
+  describe('Release Connection', function() {
     var manager;
     var connection;
 
@@ -20,7 +19,6 @@ describe('Queryable ::', function() {
           return done(err);
         }
 
-        // Store the manager
         manager = report.manager;
 
         Pack.getConnection({
@@ -31,32 +29,30 @@ describe('Queryable ::', function() {
             return done(err);
           }
 
-          // Store the connection
           connection = report.connection;
           return done();
         });
       });
     });
 
-    // Afterwards release the connection
-    after(function(done) {
+    it('should successfully release a connection', function(done) {
       Pack.releaseConnection({
         connection: connection
-      }).exec(done);
-    });
-
-    it('should run a native query and return the reports', function(done) {
-      Pack.sendNativeQuery({
-        connection: connection,
-        nativeQuery: 'SELECT datname FROM pg_database WHERE datistemplate = false;'
       })
-      .exec(function(err, report) {
+      .exec(function(err) {
         if (err) {
           return done(err);
         }
 
-        assert(_.isArray(report.result.rows));
-        assert(report.result.rows.length);
+        // If the connection was successfully released the poolSize and the
+        // availableObjectsCount should be equal.
+        // https://github.com/coopernurse/node-pool#pool-info
+        //
+        // It's a little bit like inception here digging into manager.manager.pool.pool
+        var poolSize = manager.pool.pool.getPoolSize();
+        var availableObjects = manager.pool.pool.availableObjectsCount();
+
+        assert.equal(poolSize, availableObjects);
 
         return done();
       });

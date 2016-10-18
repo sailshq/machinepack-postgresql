@@ -70,10 +70,10 @@ module.exports = {
         break;
 
       case 'insert':
-        // Return an array of primary keys. It's assumed that insert queries
-        // will be run with something like `returning "id"` attached at the end.
-        // If results is empty just return an empty array. If each record
-        // contains more than one key, just include the first key.
+        // Return either an integer or an array of primary keys. It's assumed
+        // that insert queries will be run with something like `returning "id"`
+        // attached at the end. If results is empty just return an empty array.
+        // If each record contains more than one key, just include the first key.
         var insertValues;
 
         if (!inputs.nativeQueryResult.rows.length) {
@@ -82,6 +82,11 @@ module.exports = {
           insertValues = _.map(inputs.nativeQueryResult.rows, function getValue(row) {
             return _.first(_.values(row));
           });
+        }
+
+        // If only one item was inserted return the id of that one item
+        if (insertValues.length === 1) {
+          insertValues = _.first(insertValues);
         }
 
         normalizedResult = {
@@ -98,6 +103,34 @@ module.exports = {
       case 'delete':
         normalizedResult = {
           numRecordsDeleted: inputs.nativeQueryResult.rowCount
+        };
+        break;
+
+      case 'average':
+        var avg = _.first(inputs.nativeQueryResult.rows).avg;
+        normalizedResult = {
+          avg: Number(avg)
+        };
+        break;
+
+      case 'max':
+        var max = _.first(inputs.nativeQueryResult.rows).max;
+        normalizedResult = {
+          max: Number(max)
+        };
+        break;
+
+      case 'min':
+        var min = _.first(inputs.nativeQueryResult.rows).min;
+        normalizedResult = {
+          min: Number(min)
+        };
+        break;
+
+      case 'sum':
+        var sum = _.first(inputs.nativeQueryResult.rows).sum;
+        normalizedResult = {
+          sum: Number(sum)
         };
         break;
 

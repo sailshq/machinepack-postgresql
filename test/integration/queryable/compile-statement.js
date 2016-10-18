@@ -1,5 +1,5 @@
 var assert = require('assert');
-var Pack = require('../../');
+var Pack = require('../../../');
 
 describe('Queryable ::', function() {
   describe('Compile Statement', function() {

@@ -17,6 +17,12 @@ module.exports = {
   'it might simply be a container for storing config, or it might refer to multiple pools.',
 
 
+  cacheable: false,
+
+
+  sync: true,
+
+
   inputs: {
 
     connectionString: {
