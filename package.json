@@ -23,7 +23,7 @@
   "dependencies": {
     "benchmark": "2.1.1",
     "lodash": "3.10.1",
-    "machine": "^13.0.0-16",
+    "machine": "^13.0.0-17",
     "pg": "6.1.0",
     "waterline-sql-builder": "treelinehq/waterline-sql-builder"
   },
