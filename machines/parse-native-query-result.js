@@ -106,32 +106,19 @@ module.exports = {
         };
         break;
 
-      case 'average':
+      case 'avg':
         var avg = _.first(inputs.nativeQueryResult.rows).avg;
-        normalizedResult = {
-          avg: Number(avg)
-        };
-        break;
-
-      case 'max':
-        var max = _.first(inputs.nativeQueryResult.rows).max;
-        normalizedResult = {
-          max: Number(max)
-        };
-        break;
-
-      case 'min':
-        var min = _.first(inputs.nativeQueryResult.rows).min;
-        normalizedResult = {
-          min: Number(min)
-        };
+        normalizedResult = Number(avg);
         break;
 
       case 'sum':
         var sum = _.first(inputs.nativeQueryResult.rows).sum;
-        normalizedResult = {
-          sum: Number(sum)
-        };
+        normalizedResult = Number(sum);
+        break;
+
+      case 'count':
+        var count = _.first(inputs.nativeQueryResult.rows).count;
+        normalizedResult = Number(count);
         break;
 
       default:
