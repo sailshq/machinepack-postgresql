@@ -77,6 +77,9 @@ module.exports = {
         });
       }
 
+      // Attach a random connection id for debug purposes
+      connection.id = Math.floor(Math.random() * (10000 - 100) + 100);
+
       // Now pass back the connection so it can be provided
       // to other methods in this driver.
       return exits.success({

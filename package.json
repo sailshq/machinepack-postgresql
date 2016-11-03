@@ -22,6 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "benchmark": "2.1.1",
+    "debug": "2.2.0",
     "lodash": "3.10.1",
     "machine": "^13.0.0-17",
     "pg": "6.1.0",

@@ -86,6 +86,7 @@ module.exports = {
 
   fn: function sendNativeQuery(inputs, exits) {
     var _ = require('lodash');
+    var debug = require('debug')('query');
     var validateConnection = require('../helpers/validate-connection');
 
     // Validate provided connection.
@@ -112,6 +113,10 @@ module.exports = {
 
 
     // Send native query.
+    debug('Running SQL Query:');
+    debug('SQL: ' + sql);
+    debug('Bindings: ' + bindings);
+    debug('Connection Id: ' + inputs.connection.id);
     inputs.connection.query(sql, bindings, function query(err, result) {
       if (err) {
         return exits.queryFailed({
