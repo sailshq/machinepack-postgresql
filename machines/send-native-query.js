@@ -91,10 +91,9 @@ module.exports = {
 
 
   fn: function sendNativeQuery(inputs, exits) {
-    var validateConnection = require('../helpers/validate-connection');
-
     // Validate provided connection.
-    if (!validateConnection({ connection: inputs.connection }).execSync()) {
+    var validConnection = _.isObject(inputs.connection) && _.isFunction(inputs.connection.release) && _.isFunction(inputs.connection.query);
+    if (!validConnection) {
       return exits.badConnection();
     }
 
