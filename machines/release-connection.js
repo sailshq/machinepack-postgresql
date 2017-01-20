@@ -1,3 +1,6 @@
+// Dependencies
+var _ = require('lodash');
+
 module.exports = {
 
 
@@ -35,9 +38,10 @@ module.exports = {
       extendedDescription: 'The provided connection may no longer be used for any subsequent queries.',
       outputVariableName: 'report',
       outputDescription: 'The `meta` property is reserved for custom driver-specific extensions.',
-      example: {
-        meta: '==='
-      }
+      example: '===',
+      // example: {
+      //   meta: '==='
+      // }
     },
 
     badConnection: {
@@ -49,22 +53,20 @@ module.exports = {
         'shut off while some business logic was in progress.',
       outputVariableName: 'report',
       outputDescription: 'The `meta` property is reserved for custom driver-specific extensions.',
-      example: {
-        meta: '==='
-      }
+      example: '===',
+      // example: {
+      //   meta: '==='
+      // }
     }
 
   },
 
 
   fn: function releaseConnection(inputs, exits) {
-    var validateConnection = require('../helpers/validate-connection');
-
     // Validate provided connection.
-    if (!validateConnection({ connection: inputs.connection }).execSync()) {
-      return exits.badConnection({
-        meta: inputs.meta
-      });
+    var validConnection = _.isObject(inputs.connection) && _.isFunction(inputs.connection.release) && _.isFunction(inputs.connection.query);
+    if (!validConnection) {
+      return exits.badConnection();
     }
 
     // Release connection.

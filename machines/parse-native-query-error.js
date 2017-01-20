@@ -1,3 +1,6 @@
+// Dependencies
+var _ = require('lodash');
+
 module.exports = {
 
 
@@ -48,18 +51,17 @@ module.exports = {
         'the provided raw error. Conforms to one of a handful of standardized footprint types ' +
         'expected by the Waterline driver interface.  The `meta` property is reserved for custom ' +
         'driver-specific extensions.',
-      example: {
-        footprint: {},
-        meta: '==='
-      }
+      example: '===',
+      // example: {
+      //   footprint: {},
+      //   meta: '==='
+      // }
     }
 
   },
 
 
   fn: function parseNativeQueryError(inputs, exits) {
-    var _ = require('lodash');
-
     // Local variable (`err`) for convenience.
     var err = inputs.nativeQueryError;
 

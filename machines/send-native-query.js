@@ -1,3 +1,6 @@
+var _ = require('lodash');
+var debug = require('debug')('query');
+
 module.exports = {
 
 
@@ -27,7 +30,7 @@ module.exports = {
         description: 'This is oftentimes compiled from Waterline query syntax using "Compile statement", however it ' +
           'could also originate from userland code.'
       },
-      example: '*',
+      example: '===',
       required: true
     },
 
@@ -50,10 +53,11 @@ module.exports = {
       outputDescription: 'The `result` property is the result data the database sent back. The `meta` property is ' +
         'reserved for custom driver-specific extensions.',
       moreInfoUrl: 'https://github.com/brianc/node-postgres/wiki/Query#result-object',
-      example: {
-        result: '===',
-        meta: '==='
-      }
+      example: '==='
+      // example: {
+      //   result: '===',
+      //   meta: '==='
+      // }
     },
 
     queryFailed: {
@@ -61,10 +65,11 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `error` property is a JavaScript Error instance with more details about what went wrong. ' +
         'The `meta` property is reserved for custom driver-specific extensions.',
-      example: {
-        error: '===',
-        meta: '==='
-      }
+      example: '==='
+      // example: {
+      //   error: '===',
+      //   meta: '==='
+      // }
     },
 
     badConnection: {
@@ -76,21 +81,19 @@ module.exports = {
           'some business logic was in progress.',
       outputVariableName: 'report',
       outputDescription: 'The `meta` property is reserved for custom driver-specific extensions.',
-      example: {
-        meta: '==='
-      }
+      example: '==='
+      // example: {
+      //   meta: '==='
+      // }
     }
 
   },
 
 
   fn: function sendNativeQuery(inputs, exits) {
-    var _ = require('lodash');
-    var debug = require('debug')('query');
-    var validateConnection = require('../helpers/validate-connection');
-
     // Validate provided connection.
-    if (!validateConnection({ connection: inputs.connection }).execSync()) {
+    var validConnection = _.isObject(inputs.connection) && _.isFunction(inputs.connection.release) && _.isFunction(inputs.connection.query);
+    if (!validConnection) {
       return exits.badConnection();
     }
 

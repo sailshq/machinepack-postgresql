@@ -38,9 +38,10 @@ module.exports = {
         'is committed, and will not affect queries made on other connections.',
       outputVariableName: 'report',
       outputDescription: 'The `meta` property is reserved for custom driver-specific extensions.',
-      example: {
-        meta: '==='
-      }
+      example: '==='
+      // example: {
+      //   meta: '==='
+      // }
     },
 
     badConnection: {
@@ -53,15 +54,17 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `error` property is a JavaScript Error instance containing the raw error from the database. ' +
         'The `meta` property is reserved for custom driver-specific extensions.',
-      example: {
-        meta: '==='
-      }
+      example: '==='
+      // example: {
+      //   meta: '==='
+      // }
     }
 
   },
 
 
   fn: function beginTransaction(inputs, exits) {
+    // Dependencies
     var Pack = require('../');
 
     // Since we're using `sendNativeQuery()` to access the underlying connection,

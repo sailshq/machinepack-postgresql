@@ -1,3 +1,6 @@
+// Dependencies
+var _ = require('lodash');
+
 module.exports = {
 
 
@@ -21,7 +24,7 @@ module.exports = {
         'determines how the provided raw result will be parsed/coerced.',
       moreInfoUrl: 'https://github.com/particlebanana/waterline-query-builder/blob/master/docs/syntax.md',
       required: true,
-      example: 'select'
+      example: '==='
     },
 
     nativeQueryResult: {
@@ -51,17 +54,17 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `result` property is the normalized version of the raw result originally provided.  The `meta` ' +
         'property is reserved for custom driver-specific extensions.',
-      example: {
-        result: '*',
-        meta: '==='
-      }
+      example: '==='
+      // example: {
+      //   result: '*',
+      //   meta: '==='
+      // }
     }
 
   },
 
 
   fn: function parseNativeQueryResult(inputs, exits) {
-    var _ = require('lodash');
     var normalizedResult;
 
     switch (inputs.queryType) {
