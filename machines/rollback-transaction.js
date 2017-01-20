@@ -39,9 +39,10 @@ module.exports = {
       extendedDescription: 'Subsequent queries on this connection will no longer be transactional unless a new transaction is begun.',
       outputVariableName: 'report',
       outputDescription: 'The `meta` property is reserved for custom driver-specific extensions.',
-      example: {
-        meta: '==='
-      }
+      example: '===',
+      // example: {
+      //   meta: '==='
+      // }
     },
 
     badConnection: {
@@ -54,9 +55,10 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `error` property is a JavaScript Error instance containing the raw error from the database. ' +
         'The `meta` property is reserved for custom driver-specific extensions.',
-      example: {
-        meta: '==='
-      }
+      example: '===',
+      // example: {
+      //   meta: '==='
+      // }
     }
 
   },

@@ -70,20 +70,22 @@ module.exports = {
         'basis; and it may also vary based on the configuration passed into the `meta` input.',
       outputVariableName: 'report',
       outputDescription: 'The `manager` property is a manager instance that will be passed into `getConnection()`. The `meta` property is reserved for custom driver-specific extensions.',
-      example: {
-        manager: '===',
-        meta: '==='
-      }
+      example: '==='
+      // example: {
+      //   manager: '===',
+      //   meta: '==='
+      // }
     },
 
     malformed: {
       description: 'The provided connection string is not valid for Postgresql.',
       outputVariableName: 'report',
       outputDescription: 'The `error` property is a JavaScript Error instance explaining that (and preferably "why") the provided connection string is invalid.  The `meta` property is reserved for custom driver-specific extensions.',
-      example: {
-        error: '===',
-        meta: '==='
-      }
+      example: '==='
+      // example: {
+      //   error: '===',
+      //   meta: '==='
+      // }
     },
 
     failed: {
@@ -105,10 +107,11 @@ module.exports = {
         'any errors related to bad credentials, connectivity, etc. will not be caught until `getConnection()` is called.',
       outputVariableName: 'report',
       outputDescription: 'The `error` property is a JavaScript Error instance with more information and a stack trace.  The `meta` property is reserved for custom driver-specific extensions.',
-      example: {
-        error: '===',
-        meta: '==='
-      }
+      example: '==='
+      // example: {
+      //   error: '===',
+      //   meta: '==='
+      // }
     }
 
   },

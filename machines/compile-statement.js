@@ -29,7 +29,8 @@ module.exports = {
         'This is distinct from `meta`, which contains driver-specific customizations about the ' +
         'statement as a whole.',
       moreInfoUrl: 'https://github.com/treelinehq/waterline-query-builder/blob/master/docs/syntax.md',
-      example: {},
+      // example: {},
+      example: '===',
       required: true
     },
 
@@ -51,10 +52,11 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `nativeQuery` property is the compiled native query for the database. ' +
         'The `meta` property is reserved for custom driver-specific extensions.',
-      example: {
-        nativeQuery: '*',
-        meta: '==='
-      }
+      example: '==='
+      // example: {
+      //   nativeQuery: '*',
+      //   meta: '==='
+      // }
     },
 
     malformed: {
@@ -62,10 +64,11 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `error` property is a JavaScript error instance explaining that (or preferably even _why_) ' +
         'the Waterline syntax is not valid. The `meta` property is reserved for custom driver-specific extensions.',
-      example: {
-        error: '===',
-        meta: '==='
-      }
+      example: '==='
+      // example: {
+      //   error: '===',
+      //   meta: '==='
+      // }
     },
 
     notSupported: {
@@ -75,10 +78,11 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `error` property is a JavaScript error instance explaining that (or preferably even _why_) ' +
         'the Waterline statement is not supported. The `meta` property is reserved for custom driver-specific extensions.',
-      example: {
-        error: '===',
-        meta: '==='
-      }
+      example: '==='
+      // example: {
+      //   error: '===',
+      //   meta: '==='
+      // }
     }
 
   },
