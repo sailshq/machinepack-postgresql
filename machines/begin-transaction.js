@@ -1,3 +1,6 @@
+// Dependencies
+var Pack = require('../');
+
 module.exports = {
 
 

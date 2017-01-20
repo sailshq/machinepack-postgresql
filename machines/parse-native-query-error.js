@@ -1,3 +1,6 @@
+// Dependencies
+var _ = require('lodash');
+
 module.exports = {
 
 
@@ -59,8 +62,6 @@ module.exports = {
 
 
   fn: function parseNativeQueryError(inputs, exits) {
-    var _ = require('lodash');
-
     // Local variable (`err`) for convenience.
     var err = inputs.nativeQueryError;
 

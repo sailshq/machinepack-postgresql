@@ -1,3 +1,6 @@
+var _ = require('lodash');
+var debug = require('debug')('query');
+
 module.exports = {
 
 
@@ -88,8 +91,6 @@ module.exports = {
 
 
   fn: function sendNativeQuery(inputs, exits) {
-    var _ = require('lodash');
-    var debug = require('debug')('query');
     var validateConnection = require('../helpers/validate-connection');
 
     // Validate provided connection.
