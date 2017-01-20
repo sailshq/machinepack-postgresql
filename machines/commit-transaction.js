@@ -1,6 +1,3 @@
-// Dependencies
-var Pack = require('../');
-
 module.exports = {
 
 
@@ -65,6 +62,9 @@ module.exports = {
 
 
   fn: function commitTransaction(inputs, exits) {
+    // Dependencies
+    var Pack = require('../');
+
     // Since we're using `sendNativeQuery()` to access the underlying connection,
     // we have confidence it will be validated before being used.
     Pack.sendNativeQuery({
