@@ -205,8 +205,8 @@ module.exports = {
 
       // Validate that a protocol was found before other pieces
       // (otherwise other parsed info will be very weird and wrong)
-      if (!parsedConnectionStr.protocol || parsedConnectionStr.protocol !== 'postgres:') {
-        throw new Error('Protocol (i.e. `postgres://`) is required in connection string.');
+      if (!parsedConnectionStr.protocol || (parsedConnectionStr.protocol !== 'postgres:' && parsedConnectionStr.protocol !== 'postgresql:')) {
+        throw new Error('Protocol (i.e. `postgresql://`) is required in connection string.');
       }
 
       // Parse port & host
