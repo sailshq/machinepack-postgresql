@@ -1,6 +1,6 @@
 {
   "name": "machinepack-postgresql",
-  "version": "1.0.0-2",
+  "version": "1.0.0-5",
   "description": "Structured Node.js bindings for Postgresql.",
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha test/integration --recursive",
@@ -26,7 +26,7 @@
     "lodash": "3.10.1",
     "machine": "^13.0.0-17",
     "pg": "6.1.0",
-    "waterline-sql-builder": "^1.0.0-2"
+    "waterline-sql-builder": "^1.0.0-3"
   },
   "devDependencies": {
     "eslint": "3.5.0",
