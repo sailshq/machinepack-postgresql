@@ -89,7 +89,7 @@ module.exports = {
       footprint.keys = [];
       if (_.isString(err.detail)) {
         var matches = err.detail.match(/Key \((.*)\)=\((.*)\) already exists\.$/);
-        var matchedAttrName = matches[1].replace('"', '');
+        var matchedAttrName = matches[1].replace(/^\"(.*)\"/g, '$1');
         footprint.keys.push(matchedAttrName);
       }
     }
