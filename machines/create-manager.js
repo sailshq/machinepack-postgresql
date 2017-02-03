@@ -201,13 +201,14 @@ module.exports = {
     //
     // Remember: connection string takes priority over `meta` in the event of a conflict.
     try {
-      var parsedConnectionStr = url.parse(inputs.connectionString);
-
-      // Validate that a protocol was found before other pieces
-      // (otherwise other parsed info will be very weird and wrong)
-      if (!parsedConnectionStr.protocol || (parsedConnectionStr.protocol !== 'postgres:' && parsedConnectionStr.protocol !== 'postgresql:')) {
-        throw new Error('Protocol (i.e. `postgresql://`) is required in connection string.');
+      var urlToParse = inputs.connectionString;
+      // We don't actually care about the protocol, but `url.parse()` returns funky results
+      // if the argument doesn't have one.  So we'll add one if necessary.
+      // See https://en.wikipedia.org/wiki/Uniform_Resource_Identifier#Syntax
+      if (!urlToParse.match(/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//)) {
+        urlToParse = 'postgresql://' + urlToParse;
       }
+      var parsedConnectionStr = url.parse(urlToParse);
 
       // Parse port & host
       var DEFAULT_HOST = 'localhost';
