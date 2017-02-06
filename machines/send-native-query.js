@@ -35,7 +35,7 @@ module.exports = {
     valuesToEscape: {
       description: 'An optional list of values to escape and include in the native query, in order.',
       extendedDescription: 'This is only relevant if the provided `nativeQuery` is a string.',
-      example: ['cat'],
+      example: '===',
       defaultsTo: []
     },
 
