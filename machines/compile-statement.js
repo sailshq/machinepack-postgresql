@@ -115,7 +115,8 @@ module.exports = {
     }
 
     return exits.success({
-      nativeQuery: compiledNativeQuery,
+      nativeQuery: compiledNativeQuery.sql,
+      valuesToEscape: compiledNativeQuery.bindings || [],
       meta: inputs.meta
     });
   }
