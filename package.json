@@ -21,7 +21,6 @@
   "author": "The Treeline Company",
   "license": "MIT",
   "dependencies": {
-    "benchmark": "2.1.1",
     "debug": "2.2.0",
     "@sailshq/lodash": "^3.10.2",
     "machine": "^13.0.0-17",
@@ -30,6 +29,7 @@
   },
   "devDependencies": {
     "eslint": "3.5.0",
+    "benchmark": "2.1.1",
     "mocha": "3.0.2"
   },
   "machinepack": {
