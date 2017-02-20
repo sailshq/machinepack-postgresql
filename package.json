@@ -1,12 +1,12 @@
 {
   "name": "machinepack-postgresql",
-  "version": "1.0.0-9",
-  "description": "Structured Node.js bindings for Postgresql.",
+  "version": "1.0.0-10",
+  "description": "Structured Node.js bindings for connecting and running queries against a PostgreSQL database.",
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha test/integration --recursive",
     "fasttest": "node ./node_modules/mocha/bin/mocha test/integration --recursive",
     "pretest": "npm run lint",
-    "lint": "eslint machines test",
+    "lint": "node ./node_modules/eslint/bin/eslint *.js **/*.js",
     "docker": "docker-compose run adapter bash",
     "benchmark": "node ./node_modules/mocha/bin/mocha test/benchmarks --recursive"
   },
@@ -18,23 +18,22 @@
     "machines",
     "machinepack"
   ],
-  "author": "The Treeline Company",
+  "author": "The Sails Company",
   "license": "MIT",
   "dependencies": {
-    "benchmark": "2.1.1",
     "debug": "2.2.0",
-    "lodash": "3.10.1",
+    "@sailshq/lodash": "^3.10.2",
     "machine": "^13.0.0-17",
     "pg": "6.1.0",
     "waterline-sql-builder": "^1.0.0-3"
   },
   "devDependencies": {
     "eslint": "3.5.0",
-    "espree": "3.3.0",
+    "benchmark": "2.1.1",
     "mocha": "3.0.2"
   },
   "machinepack": {
-    "friendlyName": "Postgresql",
+    "friendlyName": "PostgreSQL",
     "machineDir": "machines/",
     "machines": [
       "get-connection",

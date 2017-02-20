@@ -3,27 +3,46 @@
   machinepack-postgresql
 </h1>
 
-### [Docs](http://node-machine.org/machinepack-postgresql) &nbsp; [Browse other machines](http://node-machine.org/machinepacks) &nbsp;  [FAQ](http://node-machine.org/implementing/FAQ)  &nbsp;  [Newsgroup](https://groups.google.com/forum/?hl=en#!forum/node-machine)
-
 Run queries against a PostgreSQL database.
+
+> See https://github.com/node-machine/driver-interface for more background information about this package.
 
 
 ## Installation &nbsp; [![NPM version](https://badge.fury.io/js/machinepack-postgresql.svg)](http://badge.fury.io/js/machinepack-postgresql) [![Build Status](https://travis-ci.org/treelinehq/machinepack-postgresql.png?branch=master)](https://travis-ci.org/treelinehq/machinepack-postgresql)
 
 ```sh
-$ npm install machinepack-postgresql --save --save-exact
+$ npm install machinepack-postgresql --save
 ```
+
 
 ## Usage
 
-For the latest usage documentation, version information, and test status of this module, see <a href="http://node-machine.org/machinepack-postgresql" title="Run queries against a postgresql database. (for node.js)">http://node-machine.org/machinepack-postgresql</a>.  The generated manpages for each machine contain a complete reference of all expected inputs, possible exit states, and example return values.  If you need more help, or find a bug, jump into [Gitter](https://gitter.im/node-machine/general) or leave a message in the project [newsgroup](https://groups.google.com/forum/?hl=en#!forum/node-machine).
+For the latest usage documentation, version information, and test status of this module, see <a href="http://node-machine.org/machinepack-postgresql" title="Structured Node.js bindings for postgresql. (for node.js)">http://node-machine.org/machinepack-postgresql</a>.  The generated manpage for each method contains a complete reference of all expected inputs, possible exit states, and example return values.
 
-## About  &nbsp; [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/node-machine/general?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-This is a [machinepack](http://node-machine.org/machinepacks), an NPM module which exposes a set of related Node.js [machines](http://node-machine.org/spec/machine) according to the [machinepack specification](http://node-machine.org/spec/machinepack).
-Documentation pages for the machines contained in this module (as well as all other NPM-hosted machines for Node.js) are automatically generated and kept up-to-date on the <a href="http://node-machine.org" title="Public machine registry for Node.js">public registry</a>.
-Learn more at <a href="http://node-machine.org/implementing/FAQ" title="Machine Project FAQ (for implementors)">http://node-machine.org/implementing/FAQ</a>.
+## Help
+
+For more examples, or if you get stuck or have questions, click [here](http://sailsjs.com/support).
+
+
+## Bugs &nbsp; [![NPM version](https://badge.fury.io/js/machinepack-postgresql.svg)](http://npmjs.com/package/machinepack-postgresql)
+
+To report a bug, [click here](http://sailsjs.com/bugs).
+
+
+## Contributing &nbsp; [![Build Status](https://travis-ci.org/balderdashy/machinepack-postgresql.svg?branch=master)](https://travis-ci.org/balderdashy/machinepack-postgresql)
+
+Please observe the guidelines and conventions laid out in the [Sails project contribution guide](http://sailsjs.com/contribute) when opening issues or submitting pull requests.
+
+[![NPM](https://nodei.co/npm/machinepack-postgresql.png?downloads=true)](http://npmjs.com/package/machinepack-postgresql)
+
+## Acknowledgements
+
+Thanks to [@brianc](https://github.com/brianc) for all of his fantastic work on the [`pg`](http://npmjs.com/package/pg) package!
 
 ## License
 
-MIT &copy; 2015 - 2016 contributors
+MIT &copy; 2015-2017 The Sails Company
+
+This package, like the [Sails framework](http://sailsjs.com), is free and open-source under the [MIT License](http://sailsjs.com/license).
+
