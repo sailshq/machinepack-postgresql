@@ -1,7 +1,7 @@
 {
   "name": "machinepack-postgresql",
   "version": "1.0.0-9",
-  "description": "Structured Node.js bindings for Postgresql.",
+  "description": "Structured Node.js bindings for connecting and running queries against a PostgreSQL database.",
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha test/integration --recursive",
     "fasttest": "node ./node_modules/mocha/bin/mocha test/integration --recursive",
@@ -18,7 +18,7 @@
     "machines",
     "machinepack"
   ],
-  "author": "The Treeline Company",
+  "author": "The Sails Company",
   "license": "MIT",
   "dependencies": {
     "debug": "2.2.0",
