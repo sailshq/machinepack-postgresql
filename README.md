@@ -5,10 +5,10 @@
 
 Run queries against a PostgreSQL database.
 
-> See https://github.com/node-machine/driver-interface for more background information about this package.
+Visit [Waterline Driver Interface project](https://github.com/node-machine/driver-interface) for more background information about this package.
 
 
-## Installation &nbsp; [![NPM version](https://badge.fury.io/js/machinepack-postgresql.svg)](http://badge.fury.io/js/machinepack-postgresql) [![Build Status](https://travis-ci.org/treelinehq/machinepack-postgresql.png?branch=master)](https://travis-ci.org/treelinehq/machinepack-postgresql)
+## Installation &nbsp; [![NPM version](https://badge.fury.io/js/machinepack-postgresql.svg)](http://badge.fury.io/js/machinepack-postgresql) [![Build Status](https://travis-ci.org/sailshq/machinepack-postgresql.png?branch=master)](https://travis-ci.org/sailshq/machinepack-postgresql)
 
 ```sh
 $ npm install machinepack-postgresql --save
@@ -17,7 +17,7 @@ $ npm install machinepack-postgresql --save
 
 ## Usage
 
-For the latest usage documentation, version information, and test status of this module, see <a href="http://node-machine.org/machinepack-postgresql" title="Structured Node.js bindings for postgresql. (for node.js)">http://node-machine.org/machinepack-postgresql</a>.  The generated manpage for each method contains a complete reference of all expected inputs, possible exit states, and example return values.
+For the latest usage documentation, version information, and test status of this module, see <a href="http://node-machine.org/machinepack-postgresql" title="Structured Node.js bindings for postgresql. (for node.js)">machinepack-postgresql homepage</a>.  The generated manpage for each method contains a complete reference of all expected inputs, possible exit states, and example return values.
 
 
 ## Help
@@ -30,7 +30,7 @@ For more examples, or if you get stuck or have questions, click [here](http://sa
 To report a bug, [click here](http://sailsjs.com/bugs).
 
 
-## Contributing &nbsp; [![Build Status](https://travis-ci.org/balderdashy/machinepack-postgresql.svg?branch=master)](https://travis-ci.org/balderdashy/machinepack-postgresql)
+## Contributing &nbsp; [![Build Status](https://travis-ci.org/sailshq/machinepack-postgresql.svg?branch=master)](https://travis-ci.org/sailshq/machinepack-postgresql)
 
 Please observe the guidelines and conventions laid out in the [Sails project contribution guide](http://sailsjs.com/contribute) when opening issues or submitting pull requests.
 
