@@ -56,6 +56,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:treelinehq/machinepack-postgresql.git"
+    "url": "git@github.com:sailshq/machinepack-postgresql.git"
   }
 }
