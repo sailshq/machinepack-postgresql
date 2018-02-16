@@ -58,7 +58,7 @@ module.exports = {
       outputDescription: 'The `result` property is the result data the database sent back. The `meta` property is ' +
         'reserved for custom driver-specific extensions.',
       moreInfoUrl: 'https://github.com/brianc/node-postgres/wiki/Query#result-object',
-      example: '==='
+      outputExample: '==='
       // example: {
       //   result: '===',
       //   meta: '==='
@@ -70,7 +70,7 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `error` property is a JavaScript Error instance with more details about what went wrong. ' +
         'The `meta` property is reserved for custom driver-specific extensions.',
-      example: '==='
+      outputExample: '==='
       // example: {
       //   error: '===',
       //   meta: '==='
@@ -86,7 +86,7 @@ module.exports = {
           'some business logic was in progress.',
       outputVariableName: 'report',
       outputDescription: 'The `meta` property is reserved for custom driver-specific extensions.',
-      example: '==='
+      outputExample: '==='
       // example: {
       //   meta: '==='
       // }

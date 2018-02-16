@@ -41,7 +41,7 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `connection` property is an active connection to the database. The `meta` property ' +
         'is reserved for custom driver-specific extensions.',
-      example: '==='
+      outputExample: '==='
       // example: {
       //   connection: '===',
       //   meta: '==='
@@ -60,7 +60,7 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `error` property is a JavaScript Error instance explaining that a connection could not be made. ' +
         'The `meta` property is reserved for custom driver-specific extensions.',
-      example: '===',
+      outputExample: '===',
       // example: {
       //   error: '===',
       //   meta: '==='
