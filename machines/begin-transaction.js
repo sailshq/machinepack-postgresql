@@ -38,7 +38,7 @@ module.exports = {
         'is committed, and will not affect queries made on other connections.',
       outputVariableName: 'report',
       outputDescription: 'The `meta` property is reserved for custom driver-specific extensions.',
-      example: '==='
+      outputExample: '==='
       // example: {
       //   meta: '==='
       // }
@@ -54,7 +54,7 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `error` property is a JavaScript Error instance containing the raw error from the database. ' +
         'The `meta` property is reserved for custom driver-specific extensions.',
-      example: '==='
+      outputExample: '==='
       // example: {
       //   meta: '==='
       // }
@@ -72,7 +72,7 @@ module.exports = {
     Pack.sendNativeQuery({
       connection: inputs.connection,
       nativeQuery: 'BEGIN'
-    }).exec({
+    }).switch({
       error: function error(err) {
         return exits.error(err);
       },

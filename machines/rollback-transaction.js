@@ -39,7 +39,7 @@ module.exports = {
       extendedDescription: 'Subsequent queries on this connection will no longer be transactional unless a new transaction is begun.',
       outputVariableName: 'report',
       outputDescription: 'The `meta` property is reserved for custom driver-specific extensions.',
-      example: '===',
+      outputExample: '===',
       // example: {
       //   meta: '==='
       // }
@@ -55,7 +55,7 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `error` property is a JavaScript Error instance containing the raw error from the database. ' +
         'The `meta` property is reserved for custom driver-specific extensions.',
-      example: '===',
+      outputExample: '===',
       // example: {
       //   meta: '==='
       // }
@@ -73,7 +73,7 @@ module.exports = {
     Pack.sendNativeQuery({
       connection: inputs.connection,
       nativeQuery: 'ROLLBACK'
-    }).exec({
+    }).switch({
       error: function error(err) {
         return exits.error(err);
       },

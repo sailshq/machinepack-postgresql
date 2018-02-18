@@ -13,9 +13,6 @@ module.exports = {
   description: 'Compile a Waterline statement to a native query for PostgreSQL.',
 
 
-  cacheable: true,
-
-
   sync: true,
 
 
@@ -52,7 +49,7 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `nativeQuery` property is the compiled native query for the database. ' +
         'The `meta` property is reserved for custom driver-specific extensions.',
-      example: '==='
+      outputExample: '==='
       // example: {
       //   nativeQuery: '*',
       //   meta: '==='
@@ -64,7 +61,7 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `error` property is a JavaScript error instance explaining that (or preferably even _why_) ' +
         'the Waterline syntax is not valid. The `meta` property is reserved for custom driver-specific extensions.',
-      example: '==='
+      outputExample: '==='
       // example: {
       //   error: '===',
       //   meta: '==='
@@ -78,7 +75,7 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `error` property is a JavaScript error instance explaining that (or preferably even _why_) ' +
         'the Waterline statement is not supported. The `meta` property is reserved for custom driver-specific extensions.',
-      example: '==='
+      outputExample: '==='
       // example: {
       //   error: '===',
       //   meta: '==='
