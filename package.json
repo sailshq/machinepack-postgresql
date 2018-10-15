@@ -1,6 +1,6 @@
 {
   "name": "machinepack-postgresql",
-  "version": "1.0.1-1",
+  "version": "1.0.1",
   "description": "Structured Node.js bindings for connecting and running queries against a PostgreSQL database.",
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha test/integration --recursive",
