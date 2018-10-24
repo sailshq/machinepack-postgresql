@@ -86,8 +86,13 @@ module.exports = {
       footprint.keys = [];
       if (_.isString(err.detail)) {
         var matches = err.detail.match(/Key \((.*)\)=\((.*)\) already exists\.$/);
-        var matchedAttrName = matches[1].replace(/^\"(.*)\"/g, '$1');
-        footprint.keys.push(matchedAttrName);
+        // In certain situations, the error detail might not match this format.
+        // In those cases, we abandon trying to determine which attribute was afected
+        // > See sails issue #4538
+        if (_.isArray(matches) && _.isString(matches[1])) {
+          var matchedColumnName = matches[1].replace(/^\"(.*)\"/g, '$1');
+          footprint.keys.push(matchedColumnName);
+        }
       }
     }
 
