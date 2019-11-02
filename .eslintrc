@@ -9,6 +9,9 @@
     "node": true,
     "mocha": true
   },
+  "parserOptions": {
+    "ecmaVersion": 10
+  },
   "rules": {
     "callback-return":              [2, ["callback", "cb", "next", "done", "proceed"]],
     "camelcase":                    [2, {"properties": "always"}],
@@ -27,6 +30,7 @@
     "no-unexpected-multiline":      [1],
     "no-unused-vars":               [2],
     "one-var":                      [2, "never"],
-    "semi":                         [1, "always"]
+    "semi":                         [1, "always"],
+    "quotes":                       [2, "single"]
   }
 }

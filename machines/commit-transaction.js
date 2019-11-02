@@ -62,29 +62,22 @@ module.exports = {
 
 
   fn: function commitTransaction(inputs, exits) {
-    // Dependencies
-    var Pack = require('../');
 
-    // Since we're using `sendNativeQuery()` to access the underlying connection,
-    // we have confidence it will be validated before being used.
-    Pack.sendNativeQuery({
-      connection: inputs.connection,
-      nativeQuery: 'COMMIT'
-    }).switch({
-      error: function error(err) {
+    const tran = inputs.connection.getCurrentTransaction();
+    if (!tran) {
+      return exits.error(new Error('No transaction found'));
+    }
+
+    tran.commit(function commitTranCb(err){
+      if (err) {
         return exits.error(err);
-      },
-      badConnection: function badConnection() {
-        return exits.badConnection({
-          meta: inputs.meta
-        });
-      },
-      success: function success() {
-        return exits.success({
-          meta: inputs.meta
-        });
       }
+
+      return exits.success({
+        meta: inputs.meta
+      });
     });
+
   }
 
 

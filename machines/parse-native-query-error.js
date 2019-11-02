@@ -1,5 +1,6 @@
 // Dependencies
 var _ = require('@sailshq/lodash');
+const util = require('util');
 
 module.exports = {
 
@@ -77,21 +78,18 @@ module.exports = {
     }
 
     // Negotiate `notUnique` error footprint.
-    // (See also: https://github.com/balderdashy/sails-postgresql/blob/a51b3643777dcf1af5517acbf76e09612d36b301/lib/driver.js#L1308)
     // ====================================================================
-    if (err.code === '23505') {
+    if (err.number === 2627) {
       footprint.identity = 'notUnique';
       // Now manually extract the relevant bits of the error message
       // to build our footprint's `keys` property:
       footprint.keys = [];
-      if (_.isString(err.detail)) {
-        var matches = err.detail.match(/Key \((.*)\)=\((.*)\) already exists\.$/);
-        // In certain situations, the error detail might not match this format.
-        // In those cases, we abandon trying to determine which attribute was afected
-        // > See sails issue #4538
-        if (_.isArray(matches) && _.isString(matches[1])) {
-          var matchedColumnName = matches[1].replace(/^\"(.*)\"/g, '$1');
-          footprint.keys.push(matchedColumnName);
+      if (_.isString(err.message)) {
+        let pattern = /Violation .* UNIQUE KEY constraint '(.+?)'.*? duplicate key .*? '(.+?)'.*? duplicate key value.+? (\(.+?\))./gm;
+        let matches = pattern.exec(err.message);
+        if (matches && _.isArray(matches) && _.isString(matches[1])) {
+          let info = util.format('Constraint=%s, table=%s, value=%s', matches[1], matches[2], matches[3]);
+          footprint.keys.push(info);
         }
       }
     }

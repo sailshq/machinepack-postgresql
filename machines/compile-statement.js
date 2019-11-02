@@ -1,7 +1,7 @@
 // Build up a SQLBuilder instance when the file is required rather than when the
 // function is run.
 var SQLBuilder = require('waterline-sql-builder')({
-  dialect: 'postgres'
+  dialect: 'mssql'
 });
 
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
   friendlyName: 'Compile statement',
 
 
-  description: 'Compile a Waterline statement to a native query for PostgreSQL.',
+  description: 'Compile a Waterline statement to a native query for MsSql.',
 
 
   sync: true,
@@ -69,8 +69,8 @@ module.exports = {
     },
 
     notSupported: {
-      description: 'The provided Waterline statement could not be compiled because it is not supported by this PostgreSQL driver.',
-      extendedDescription: 'If even one clause of the Waterline statement is not supported by the PostgreSQL driver, ' +
+      description: 'The provided Waterline statement could not be compiled because it is not supported by this Mssql driver.',
+      extendedDescription: 'If even one clause of the Waterline statement is not supported by the Mssql driver, ' +
         'the compilation of the entire statement _always fails_.',
       outputVariableName: 'report',
       outputDescription: 'The `error` property is a JavaScript error instance explaining that (or preferably even _why_) ' +

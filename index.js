@@ -7,6 +7,6 @@ module.exports = require('machine').pack({
 
 
 //... well except for this.
-// Also give the driver a `pg` property, so that it provides access
-// to the `pg` PostgreSQL library for Node.js. (See http://npmjs.com/package/pg)
-module.exports.pg = require('pg');
+// Also give the driver a `mssql` property, so that it provides access
+// to the `mssql` library for Node.js. (See http://npmjs.com/package/mssql)
+module.exports.mssql = require('mssql');

@@ -1,65 +1,51 @@
 var assert = require('assert');
 var _ = require('@sailshq/lodash');
 var Pack = require('../../../');
+var {config} = require('../../config');
 
-describe('Queryable ::', function() {
-  describe('Send Native Query', function() {
+describe('Queryable ::', function () {
+  describe('Send Native Query', function () {
     var manager;
     var connection;
 
     // Create a manager and connection
-    before(function(done) {
-      // Needed to dynamically get the host using the docker container
-      var host = process.env.POSTGRES_1_PORT_5432_TCP_ADDR || 'localhost';
+    before(async function () {
 
-      Pack.createManager({
-        connectionString: 'postgres://mp:mp@' + host + ':5432/mppg'
-      })
-      .exec(function(err, report) {
-        if (err) {
-          return done(err);
-        }
-
-        // Store the manager
-        manager = report.manager;
-
-        Pack.getConnection({
-          manager: manager
-        })
-        .exec(function(err, report) {
-          if (err) {
-            return done(err);
-          }
-
-          // Store the connection
-          connection = report.connection;
-          return done();
-        });
+      let report = await Pack.createManager({
+        meta: config
       });
+
+      // Store the manager
+      manager = report.manager;
+
+      report = await Pack.getConnection({
+        manager: manager
+      });
+
+      // Store the connection
+      connection = report.connection;
     });
 
     // Afterwards release the connection
-    after(function(done) {
-      Pack.releaseConnection({
+    after(async function () {
+      await Pack.releaseConnection({
         connection: connection
-      }).exec(done);
+      });
+
+      await Pack.destroyManager({
+        manager: manager
+      });
     });
 
-    it('should run a native query and return the reports', function(done) {
-      Pack.sendNativeQuery({
+    it('should run a native query and return the reports', async function () {
+      let report = await Pack.sendNativeQuery({
         connection: connection,
-        nativeQuery: 'SELECT datname FROM pg_database WHERE datistemplate = false;'
-      })
-      .exec(function(err, report) {
-        if (err) {
-          return done(err);
-        }
-
-        assert(_.isArray(report.result.rows));
-        assert(report.result.rows.length);
-
-        return done();
+        nativeQuery: 'SELECT 1, \'one\', 2, \'two\';'
       });
+
+      assert(_.isArray(report.result.rows));
+      assert(report.result.rows.length);
+
     });
   });
 });

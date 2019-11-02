@@ -1,48 +1,42 @@
 var assert = require('assert');
-var pg = require('pg');
 var Pack = require('../../../');
+var {config} = require('../../config');
+const util = require('../../../machines/private/util');
 
-describe('Connectable ::', function() {
-  describe('Get Connection', function() {
+describe('Connectable ::', function () {
+  describe('Get Connection', function () {
     var manager;
 
     // Create a manager
-    before(function(done) {
-      // Needed to dynamically get the host using the docker container
-      var host = process.env.POSTGRES_1_PORT_5432_TCP_ADDR || 'localhost';
+    before(async function () {
+      let report = await Pack.createManager({
+        meta: config
+      });
 
-      Pack.createManager({
-        connectionString: 'postgres://mp:mp@' + host + ':5432/mppg'
-      })
-      .exec(function(err, report) {
-        if (err) {
-          return done(err);
-        }
+      manager = report.manager;
+    });
 
-        manager = report.manager;
-        return done();
+    after(async function() {
+      await Pack.destroyManager({
+        manager: manager
       });
     });
 
-    it('should successfully return a PG Client instance', function(done) {
-      Pack.getConnection({
+    it('should successfully return a Mssql Client instance', async function () {
+      let report = await Pack.getConnection({
         manager: manager
-      })
-      .exec(function(err, report) {
-        if (err) {
-          return done(err);
-        }
+      });
 
-        // Assert that the report has a client object
-        assert(report.connection);
+      // Assert that the report has a client object
+      assert(report.connection);
+      assert(report.connection.connected);
+      // Assert that the connection has a releaseConnection function
+      assert(report.connection instanceof util.WrappedConnection);
+      assert(report.connection.release);
+      assert(report.connection.releaseConnection);
 
-        // Assert that a PG Client is returned
-        assert(report.connection instanceof pg.Client);
-
-        // Assert that the connection has a release function
-        assert(report.connection.release);
-
-        return done();
+      await Pack.releaseConnection({
+        connection: report.connection
       });
     });
   });

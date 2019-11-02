@@ -31,4 +31,5 @@ lib-cov
 .netbeans
 nbproject
 .tmp
+*.iml
 dump.rdb

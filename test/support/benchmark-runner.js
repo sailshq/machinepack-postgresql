@@ -2,7 +2,7 @@ var _ = require('@sailshq/lodash');
 var Benchmark = require('benchmark');
 
 module.exports = function runBenchmarks(name, testFns) {
-  var suite = new Benchmark.Suite({
+  var suite = new Benchmark.Suite(name,{
     name: name
   });
 
@@ -12,10 +12,9 @@ module.exports = function runBenchmarks(name, testFns) {
     });
   });
 
-  suite.on('cycle', function(event) {
+  suite.on('cycle', function (event) {
     console.log(' •', String(event.target));
-  })
-  .on('complete', function() {
+  }).on('complete', function () {
     // Time is measured in microseconds so 1000 = 1ms
     var fastestMean = _.first(this.filter('fastest')).stats.mean * 1000;
     var slowestMean = _.first(this.filter('slowest')).stats.mean * 1000;
@@ -27,6 +26,5 @@ module.exports = function runBenchmarks(name, testFns) {
 
     console.log('Fastest is ' + this.filter('fastest').map('name') + ' with an average of: ' + mean.fastest + 'ms');
     console.log('Slowest is ' + this.filter('slowest').map('name') + ' with an average of: ' + mean.slowest + 'ms');
-  })
-  .run();
+  }).run();
 };

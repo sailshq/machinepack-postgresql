@@ -1,16 +1,14 @@
 language: node_js
 node_js:
-  - "6"
-  - "5"
-  - "4"
+  - "10"
 sudo: false
 services:
-  - postgresql
+  - mssql
 addons:
-  postgresql: "9.4"
+  mssql: "2017"
 env:
-  - DB_USER=mp DB_PASS='mp'
+  - DB_USER=sails DB_PASS='sails'
 before_script:
-  - psql -c 'create database mppg;' -U postgres
-  - psql -c "create user mp with password 'mp';"
-  - psql -c "grant all privileges on database mppg to mp;"
+  - psql -c 'create database sails-test;' -U sa
+  - psql -c "create user sails with password 'sails';"
+  - psql -c "grant all privileges on database sails-test to sails;"

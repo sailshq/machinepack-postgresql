@@ -1,34 +1,24 @@
-var assert = require('assert');
 var Pack = require('../../../');
+var {config} = require('../../config');
 
-describe('Connectable ::', function() {
-  describe('Destroy Manager', function() {
-    var manager;
+describe('Connectable ::', function () {
+  describe('Destroy Manager', function () {
+
+    let manager;
 
     // Create a manager
-    before(function(done) {
-      Pack.createManager({
-        connectionString: 'postgres://mp:mp@localhost:5432/mppg'
-      })
-      .exec(function(err, report) {
-        if (err) {
-          return done(err);
-        }
-
-        manager = report.manager;
-        return done();
+    before(async function () {
+      let report = await Pack.createManager({
+        meta: config
       });
+
+      manager = report.manager;
     });
 
-
-    it('should successfully destroy the manager', function(done) {
+    it('should successfully destroy the manager', function () {
       Pack.destroyManager({
         manager: manager
-      })
-      .exec(function(err) {
-        assert(!err);
-        return done();
-      });
+      }).execSync();
     });
   });
 });

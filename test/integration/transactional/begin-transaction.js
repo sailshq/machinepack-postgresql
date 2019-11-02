@@ -1,120 +1,84 @@
 var assert = require('assert');
 var _ = require('@sailshq/lodash');
 var Pack = require('../../../');
+var {config} = require('../../config');
 
-describe('Transactional ::', function() {
-  describe('Begin Transaction', function() {
+describe('Transactional ::', function () {
+  describe('Begin Transaction', function () {
     var manager;
     var connection;
 
     // Create a manager and connection
-    before(function(done) {
-      // Needed to dynamically get the host using the docker container
-      var host = process.env.POSTGRES_1_PORT_5432_TCP_ADDR || 'localhost';
+    before(async function () {
 
-      Pack.createManager({
-        connectionString: 'postgres://mp:mp@' + host + ':5432/mppg'
-      })
-      .exec(function(err, report) {
-        if (err) {
-          return done(err);
-        }
-
-        // Store the manager
-        manager = report.manager;
-
-        Pack.getConnection({
-          manager: manager
-        })
-        .exec(function(err, report) {
-          if (err) {
-            return done(err);
-          }
-
-          // Store the connection
-          connection = report.connection;
-
-          return done();
-        });
+      let report = await Pack.createManager({
+        meta: config
       });
+
+      // Store the manager
+      manager = report.manager;
+
+      report = await Pack.getConnection({
+        manager: manager
+      });
+
+      // Store the connection
+      connection = report.connection;
+
     });
 
     // Afterwards close the transaction and release the connection
-    after(function(done) {
-      Pack.sendNativeQuery({
-        connection: connection,
-        nativeQuery: 'ROLLBACK;'
-      })
-      .exec(function(err) {
-        if (err) {
-          return done(err);
-        }
+    after(async function () {
+      await Pack.rollbackTransaction({
+        connection: connection
+      });
 
-        Pack.releaseConnection({
-          connection: connection
-        }).exec(done);
+      await Pack.releaseConnection({
+        connection: connection
+      });
+
+      await Pack.destroyManager({
+        manager: manager
       });
     });
 
-    it('should send a query that starts a transaction on the current connection', function(done) {
+    it('should send a query that starts a transaction on the current connection', async function testQuery() {
       // Check if a transaction is currently open
-      Pack.sendNativeQuery({
+      let report = await Pack.sendNativeQuery({
         connection: connection,
-        nativeQuery: 'select txid_current();'
-      })
-      .exec(function(err, report) {
-        if (err) {
-          return done(err);
-        }
-
-        var startingTxId = _.first(report.result.rows).txid_current;
-
-        // Open a Transaction using the machine
-        Pack.beginTransaction({
-          connection: connection
-        })
-        .exec(function(err) {
-          if (err) {
-            return done(err);
-          }
-
-          // Get the updated transaction id
-          Pack.sendNativeQuery({
-            connection: connection,
-            nativeQuery: 'select txid_current();'
-          })
-          .exec(function(err, report) {
-            if (err) {
-              return done(err);
-            }
-
-            var currentTxId = _.first(report.result.rows).txid_current;
-
-            // Get another transaction id
-            Pack.sendNativeQuery({
-              connection: connection,
-              nativeQuery: 'select txid_current();'
-            })
-            .exec(function(err, report) {
-              if (err) {
-                return done(err);
-              }
-
-              var afterTxId = _.first(report.result.rows).txid_current;
-
-              // The first two transaction id's should be different.
-              // This should show that a transaction was NOT in progress.
-              assert.notEqual(startingTxId, currentTxId);
-
-              // The last two transaction id's should be the same. This should
-              // show that a transaction was opened.
-              assert.equal(currentTxId, afterTxId);
-
-              return done();
-            });
-          });
-        });
+        nativeQuery: 'SELECT @@trancount;'
       });
+
+      var startingTxId = _.first(_.values(_.first(report.result.rows)));
+
+      // Open a Transaction using the machine
+      await Pack.beginTransaction({
+        connection: connection
+      });
+
+      // Get the updated transaction id
+      report = await Pack.sendNativeQuery({
+        connection: connection,
+        nativeQuery: 'SELECT @@trancount;'
+      });
+
+      var currentTxId = _.first(_.values(_.first(report.result.rows)));
+
+      // Get another transaction id
+      report = await Pack.sendNativeQuery({
+        connection: connection,
+        nativeQuery: 'SELECT @@trancount;'
+      });
+
+      var afterTxId = _.first(_.values(_.first(report.result.rows)));
+
+      // The first two transaction id's should be different.
+      // This should show that a transaction was NOT in progress.
+      assert.notEqual(startingTxId, currentTxId);
+
+      // The last two transaction id's should be the same. This should
+      // show that a transaction was opened.
+      assert.equal(currentTxId, afterTxId);
     });
   });
 });

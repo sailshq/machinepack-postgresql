@@ -1,3 +1,6 @@
+const mssql = require('mssql');
+const _ = require('@sailshq/lodash');
+
 module.exports = {
 
 
@@ -64,30 +67,31 @@ module.exports = {
 
 
   fn: function beginTransaction(inputs, exits) {
-    // Dependencies
-    var Pack = require('../');
 
-    // Since we're using `sendNativeQuery()` to access the underlying connection,
-    // we have confidence it will be validated before being used.
-    Pack.sendNativeQuery({
-      connection: inputs.connection,
-      nativeQuery: 'BEGIN'
-    }).switch({
-      error: function error(err) {
-        return exits.error(err);
-      },
-      badConnection: function badConnection() {
-        return exits.badConnection({
-          meta: inputs.meta
-        });
-      },
-      success: function success() {
-        return exits.success({
-          meta: inputs.meta
-        });
-      }
+    const tran = new mssql.Transaction(inputs.connection);
+    tran.on('rollback', (/*aborted*/) => {
+      tran.tranRolledBack = true;
     });
-  }
 
+    let beginTran;
+    if (inputs.meta && inputs.meta.isolationLevel) {
+      beginTran = _.bind(tran.begin, tran, inputs.meta.isolationLevel);
+    } else {
+      beginTran = _.bind(tran.begin, tran);
+    }
+
+    beginTran(function beingTranCb(err) {
+      if (err) {
+        return exits.error(err);
+      }
+
+      inputs.connection.setCurrentTransaction(tran);
+
+      return exits.success({
+        meta: inputs.meta
+      });
+    });
+
+  }
 
 };

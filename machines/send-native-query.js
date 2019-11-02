@@ -1,5 +1,7 @@
 var _ = require('@sailshq/lodash');
 var debug = require('debug')('query');
+var mssql = require('mssql');
+const util = require('./private/util');
 
 module.exports = {
 
@@ -7,7 +9,7 @@ module.exports = {
   friendlyName: 'Send native query',
 
 
-  description: 'Send a native query to the PostgreSQL database.',
+  description: 'Send a native query to the Mssql database.',
 
 
   inputs: {
@@ -23,18 +25,19 @@ module.exports = {
 
     nativeQuery: {
       description: 'A native query for the database.',
-      extendedDescription: 'If `valuesToEscape` is provided, this supports template syntax like `$1`, `$2`, etc.',
+      extendedDescription: 'If `valuesToEscape` is provided, this supports template syntax like `@p1`, `@p2`, etc.',
       whereToGet: {
         description: 'Write a native query for this database, or if this driver supports it, use `compileStatement()` to build a native query from Waterline syntax.',
         extendedDescription: 'This might be compiled from a Waterline statement (stage 4 query) using "Compile statement", however it could also originate directly from userland code.'
       },
-      example: 'SELECT * FROM pets WHERE species=$1 AND nickname=$2',
+      example: 'SELECT * FROM pets WHERE species=@p1 AND nickname=@p2',
       required: true
     },
 
     valuesToEscape: {
       description: 'An optional list of strings, numbers, or special literals (true, false, or null) to escape and include in the native query, in order.',
-      extendedDescription: 'Note that numbers, `true`, `false`, and `null` are all interpreted exactly the same way as if they were wrapped in quotes.  This array must never contain any arrays or dictionaries.  The first value in the list will be used to replace `$1`, the second value to replace `$2`, and so on.',
+      extendedDescription: 'Note that numbers, `true`, `false`, and `null` are all interpreted exactly the same way as if they were wrapped in quotes.  This array ' +
+        'must never contain any arrays or dictionaries.  The first value in the list will be used to replace `@p1`, the second value to replace `@p2`, and so on.',
       example: '===',
       defaultsTo: []
     },
@@ -57,7 +60,7 @@ module.exports = {
       outputVariableName: 'report',
       outputDescription: 'The `result` property is the result data the database sent back. The `meta` property is ' +
         'reserved for custom driver-specific extensions.',
-      moreInfoUrl: 'https://github.com/brianc/node-postgres/wiki/Query#result-object',
+      moreInfoUrl: 'https://tediousjs.github.io/node-mssql',
       outputExample: '==='
       // example: {
       //   result: '===',
@@ -83,7 +86,7 @@ module.exports = {
         'this driver\'s `getConnection()` method?',
       extendedDescription: 'Usually, this means the connection to the database was lost due to a logic error or timing ' +
         'issue in userland code. In production, this can mean that the database became overwhelemed or was shut off while ' +
-          'some business logic was in progress.',
+        'some business logic was in progress.',
       outputVariableName: 'report',
       outputDescription: 'The `meta` property is reserved for custom driver-specific extensions.',
       outputExample: '==='
@@ -97,8 +100,7 @@ module.exports = {
 
   fn: function sendNativeQuery(inputs, exits) {
     // Validate provided connection.
-    var validConnection = _.isObject(inputs.connection) && _.isFunction(inputs.connection.release) && _.isFunction(inputs.connection.query);
-    if (!validConnection) {
+    if (!util.validateConnection(inputs.connection)) {
       return exits.badConnection();
     }
 
@@ -111,7 +113,39 @@ module.exports = {
     debug('SQL: ' + sql);
     debug('Bindings: ' + bindings);
     debug('Connection Id: ' + inputs.connection.id);
-    inputs.connection.query(sql, bindings, function query(err, result) {
+
+    var request = new mssql.Request(inputs.connection.currentTransaction || inputs.connection);
+
+    let isProc = sql.length && sql.indexOf(' ') === -1;
+    let queryFn = isProc ? request.execute.bind(request) : request.query.bind(request);
+
+    if (!isProc) {
+      // the sql param placeholders are of the format @pn, where n=0 to n-1
+      // Prepend p to the index to form the correct param name.
+      _.each(bindings, (value, key) => {
+        request.input('p' + key, value);
+      });
+    } else {
+      if (bindings && bindings.input) {
+        _.each(bindings.input, ({name, type = '', value} = {}) => {
+          if (mssql[type.toUpperCase()]) {
+            request.input(name, mssql[type.toUpperCase()], value);
+          } else {
+            request.input(name, value);
+          }
+        });
+
+        _.each(bindings.output, ({name, type = '', value} = {}) => {
+          if (typeof value === 'undefined') {
+            request.output(name, mssql[type.toUpperCase()]);
+          } else {
+            request.output(name, mssql[type.toUpperCase()], value);
+          }
+        });
+      }
+    }
+
+    queryFn(sql, function query(err, result) {
       if (err) {
         return exits.queryFailed({
           error: err,
@@ -119,18 +153,11 @@ module.exports = {
         });
       }
 
-      // While we _could hypothetically_ just return `result.rows`, for
-      // completeness we currently include the other (albeit less-documented)
-      // properties sent back on `result` from node-postgres; e.g. `oid`.
-      //
-      // For more information, see:
-      //  • https://github.com/brianc/node-postgres/wiki/Query#result-object
       return exits.success({
         result: {
-          command: result.command,
-          rowCount: result.rowCount,
-          oid: result.oid,
-          rows: result.rows
+          recordsets: result.recordsets,
+          rowCount: result.rowsAffected,
+          rows: result.recordset
         },
         meta: inputs.meta
       });

@@ -6,6 +6,7 @@ module.exports = {
 
   description: 'Destroy the specified connection manager and destroy all of its active connections.',
 
+  sync: true,
 
   inputs: {
 
@@ -62,20 +63,19 @@ module.exports = {
 
 
   fn: function destroyManager(inputs, exits) {
-    inputs.manager.pool.end(function cb(err) {
-      if (err) {
-        return exits.failed({
-          error: new Error('Failed to destroy the Postgres connection pool and/or gracefully end all connections in the pool. ' +
-          'Details:\n=== === ===\n' + err.stack),
-          meta: inputs.meta
-        });
-      }
-
+    try {
+      inputs.manager.pool.close();
       // All connections in the pool have ended.
       return exits.success({
         meta: inputs.meta
       });
-    });
+    } catch(err) {
+      return exits.failed({
+        error: new Error('Failed to destroy the Mssql connection pool and/or gracefully end all connections in the pool. ' +
+          'Details:\n=== === ===\n' + err.stack),
+        meta: inputs.meta
+      });
+    }
   }
 
 

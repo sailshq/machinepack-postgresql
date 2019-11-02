@@ -1,5 +1,5 @@
 // Dependencies
-var _ = require('@sailshq/lodash');
+const util = require('./private/util');
 
 module.exports = {
 
@@ -7,7 +7,7 @@ module.exports = {
   friendlyName: 'Release connection',
 
 
-  description: 'Release an active PostgreSQL database connection back to the pool.',
+  description: 'Release an active Mssql database connection back to the pool.',
 
 
   inputs: {
@@ -63,15 +63,13 @@ module.exports = {
 
 
   fn: function releaseConnection(inputs, exits) {
-    // Validate provided connection.
-    var validConnection = _.isObject(inputs.connection) && _.isFunction(inputs.connection.release) && _.isFunction(inputs.connection.query);
-    if (!validConnection) {
+    if (!util.validateConnection(inputs.connection)) {
       return exits.badConnection();
     }
 
     // Release connection.
     try {
-      inputs.connection.release();
+      inputs.connection.releaseConnection();
     } catch (e) {
       return exits.error(e);
     }

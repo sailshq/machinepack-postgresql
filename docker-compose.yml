@@ -3,10 +3,10 @@ adapter:
   volumes:
    - .:/usr/src/app
   links:
-   - postgres
+   - mssql
 postgres:
-  image: postgres:9.4
+  image: mssql:2017
   environment:
-   - POSTGRES_PASSWORD=mp
-   - POSTGRES_USER=mp
-   - POSTGRES_DB=mppg
+   - MSSQL_PASSWORD=sails
+   - MSSQL_USER=sails
+   - MSSQL_DB=sails-test

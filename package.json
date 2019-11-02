@@ -1,39 +1,41 @@
 {
-  "name": "machinepack-postgresql",
-  "version": "1.0.2",
-  "description": "Structured Node.js bindings for connecting and running queries against a PostgreSQL database.",
+  "name": "@vijaykonnackal/machinepack-mssql",
+  "version": "1.1.1",
+  "description": "Structured Node.js bindings for connecting and running queries against a MsSql database.",
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha test/integration --recursive",
     "fasttest": "node ./node_modules/mocha/bin/mocha test/integration --recursive",
     "pretest": "npm run lint",
     "lint": "node ./node_modules/eslint/bin/eslint *.js **/*.js",
     "docker": "docker-compose run adapter bash",
-    "benchmark": "node ./node_modules/mocha/bin/mocha test/benchmarks --recursive"
+    "benchmark": "node ./node_modules/mocha/bin/mocha test/benchmarks --recursive",
+    "release": "np"
   },
   "keywords": [
-    "postgresql",
+    "mssql",
     "driver",
     "waterline",
     "sails",
     "machines",
     "machinepack"
   ],
-  "author": "The Sails Company",
+  "author": "Vijay Konnackal",
   "license": "MIT",
   "dependencies": {
-    "debug": "2.2.0",
-    "@sailshq/lodash": "^3.10.2",
-    "machine": "^15.0.0-21",
-    "pg": "6.1.6",
-    "waterline-sql-builder": "^1.0.0-6"
+    "debug": "4.1.1",
+    "@sailshq/lodash": "^3.10.4",
+    "machine": "^15.2.2",
+    "mssql": "^5.1.0",
+    "waterline-sql-builder": "^1.0.0",
+    "np": "*"
   },
   "devDependencies": {
-    "eslint": "3.5.0",
-    "benchmark": "2.1.1",
-    "mocha": "3.0.2"
+    "eslint": "^6.6.0",
+    "benchmark": "^2.1.4",
+    "mocha": "^6.2.2"
   },
   "machinepack": {
-    "friendlyName": "PostgreSQL",
+    "friendlyName": "MsSql",
     "machineDir": "machines/",
     "machines": [
       "get-connection",
@@ -56,6 +58,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:sailshq/machinepack-postgresql.git"
+    "url": "https://github.com/vijaykonnackal/machinepack-mssql.git"
   }
 }

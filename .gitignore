@@ -17,6 +17,8 @@
 node_modules
 npm-debug.log
 .node_history
+*.iml
+package-lock.json
 
 ############################
 # editor & OS files

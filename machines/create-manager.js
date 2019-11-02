@@ -2,7 +2,7 @@
 var util = require('util');
 var url = require('url');
 var _ = require('@sailshq/lodash');
-var pg = require('pg');
+var mssql = require('mssql');
 
 module.exports = {
 
@@ -14,25 +14,21 @@ module.exports = {
 
 
   extendedDescription:
-  'The `manager` instance returned by this method contains any configuration that is necessary ' +
-  'for communicating with the database and establishing connections (e.g. host, user, password) ' +
-  'as well as any other relevant metadata.  The manager will often also contain a reference ' +
-  'to some kind of native container (e.g. a connection pool).\n' +
-  '\n' +
-  'Note that a manager instance does not necessarily need to correspond with a pool though--' +
-  'it might simply be a container for storing config, or it might refer to multiple pools.',
-
-
-  sync: true,
+    'The `manager` instance returned by this method contains any configuration that is necessary ' +
+    'for communicating with the database and establishing connections (e.g. host, user, password) ' +
+    'as well as any other relevant metadata.  The manager will often also contain a reference ' +
+    'to some kind of native container (e.g. a connection pool).\n' +
+    '\n' +
+    'Note that a manager instance does not necessarily need to correspond with a pool though--' +
+    'it might simply be a container for storing config, or it might refer to multiple pools.',
 
 
   inputs: {
 
     connectionString: {
-      description: 'A connection string to use to connect to a Postgresql database.',
-      extendedDescription: 'Be sure to include credentials. You can also optionally provide the name of an existing database on your Postgresql server.',
-      example: 'postgres://mikermcneil:p4ssw02D@localhost:5432/some_db',
-      required: true
+      description: 'A connection string to use to connect to a Mssql database.',
+      extendedDescription: 'Be sure to include credentials. You can also optionally provide the name of an existing database on your Mssql server.',
+      example: 'mssql://user:password@localhost:1433/testdb'
     },
 
     onUnexpectedFailure: {
@@ -52,7 +48,7 @@ module.exports = {
 
     meta: {
       friendlyName: 'Meta (custom)',
-      description: 'Additional PostgreSQL-specific options to use when connecting.',
+      description: 'Additional Mssql-specific options to use when connecting.',
       extendedDescription: 'If specified, should be a dictionary. If there is a conflict between something provided in the connection string, and something in `meta`, the connection string takes priority.',
       moreInfoUrl: 'https://github.com/coopernurse/node-pool#documentation',
       example: '==='
@@ -81,7 +77,7 @@ module.exports = {
     },
 
     malformed: {
-      description: 'The provided connection string is not valid for Postgresql.',
+      description: 'The provided connection string is not valid for Mssql.',
       outputVariableName: 'report',
       outputDescription: 'The `error` property is a JavaScript Error instance explaining that (and preferably "why") the provided connection string is invalid.  The `meta` property is reserved for custom driver-specific extensions.',
       outputExample: '==='
@@ -136,15 +132,15 @@ module.exports = {
 
 
     // Build a local variable (`_clientConfig`) to house a dictionary
-    // of additional Postgres options that will be passed into `.createPool()`
+    // of additional Mssql options that will be passed into `.createPool()`
     // (Note that these could also be used with `.connect()` or `.createPoolCluster()`)
     //
     // This is pulled from the `connectionString` and `meta` inputs, and used for
     // configuring stuff like `host` and `password`.
     //
     // For a complete list of available options, see:
-    //  • https://github.com/brianc/node-postgres/wiki/Client#parameters
-    //  • https://github.com/coopernurse/node-pool#documentation
+    //  • https://github.com/tediousjs/node-mssql#general-same-for-all-drivers
+    //  • https://github.com/vincit/tarn.js/#usage
     //
     // However, note that supported options are explicitly whitelisted below.
     var _clientConfig = {};
@@ -156,28 +152,19 @@ module.exports = {
         return exits.error('If provided, `meta` must be a dictionary.');
       }
 
-      // Use properties of `meta` directly as Postgres client config.
+      // Use properties of `meta` directly as Mssql client config.
       // (note that we're very careful to only stick a property on the client config
       //  if it was not undefined, just in case that matters)
       var configOptions = [
-        // Postgres Client Options:
+        // Mssql Client Options:
         // ============================================
 
         // Basic:
-        'host', 'port', 'database', 'user', 'password', 'ssl',
+        'server', 'port', 'database', 'user', 'password',
 
-        // Advanced Client Config:
-        'application_name', 'fallback_application_name',
+        'connectionTimeout', 'requestTimeout',
 
-        // General Pool Config:
-        'max', 'min', 'refreshIdle', 'idleTimeoutMillis',
-
-        // Advanced Pool Config:
-        // These should only be used if you know what you are doing.
-        // https://github.com/coopernurse/node-pool#documentation
-        'name', 'create', 'destroy', 'reapIntervalMillis', 'returnToHead',
-        'priorityRange', 'validate', 'validateAsync', 'log'
-
+        'stream', 'parseJSON', 'options', 'pool'
       ];
 
       _.each(configOptions, function addConfigValue(clientConfKeyName) {
@@ -193,99 +180,106 @@ module.exports = {
     }
 
 
-    // Validate & parse connection string, pulling out Postgres client config
+    // Validate & parse connection string, pulling out Mssql client config
     // (call `malformed` if invalid).
     //
     // Remember: connection string takes priority over `meta` in the event of a conflict.
-    try {
-      var urlToParse = inputs.connectionString;
-      // We don't actually care about the protocol, but `url.parse()` returns funky results
-      // if the argument doesn't have one.  So we'll add one if necessary.
-      // See https://en.wikipedia.org/wiki/Uniform_Resource_Identifier#Syntax
-      if (!urlToParse.match(/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//)) {
-        urlToParse = 'postgresql://' + urlToParse;
-      }
-      var parsedConnectionStr = url.parse(urlToParse);
-
-      // Parse port & host
-      var DEFAULT_HOST = 'localhost';
-      var DEFAULT_PORT = 5432;
-
-      if (parsedConnectionStr.port) {
-        _clientConfig.port = +parsedConnectionStr.port;
-      } else {
-        _clientConfig.port = DEFAULT_PORT;
-      }
-
-      if (parsedConnectionStr.hostname) {
-        _clientConfig.host = parsedConnectionStr.hostname;
-      } else {
-        _clientConfig.host = DEFAULT_HOST;
-      }
-
-      // Parse user & password
-      if (parsedConnectionStr.auth && _.isString(parsedConnectionStr.auth)) {
-        var authPieces = parsedConnectionStr.auth.split(/:/);
-        if (authPieces[0]) {
-          _clientConfig.user = authPieces[0];
+    if (!_.isEmpty(inputs.connectionString)) {
+      try {
+        var urlToParse = inputs.connectionString;
+        // We don't actually care about the protocol, but `url.parse()` returns funky results
+        // if the argument doesn't have one.  So we'll add one if necessary.
+        // See https://en.wikipedia.org/wiki/Uniform_Resource_Identifier#Syntax
+        if (!urlToParse.match(/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//)) {
+          urlToParse = 'mssql://' + urlToParse;
         }
-        if (authPieces[1]) {
-          _clientConfig.password = authPieces[1];
+        var parsedConnectionStr = url.parse(urlToParse);
+
+        // Parse port & host
+        var DEFAULT_HOST = 'localhost';
+        var DEFAULT_PORT = 1433;
+
+        if (parsedConnectionStr.port) {
+          _clientConfig.port = +parsedConnectionStr.port;
+        } else {
+          _clientConfig.port = DEFAULT_PORT;
         }
-      }
 
-      // Parse database name
-      if (_.isString(parsedConnectionStr.pathname)) {
-        var _databaseName = parsedConnectionStr.pathname;
-
-        // Trim leading and trailing slashes
-        _databaseName = _databaseName.replace(/^\/+/, '');
-        _databaseName = _databaseName.replace(/\/+$/, '');
-
-        // If anything is left, use it as the database name.
-        if (_databaseName) {
-          _clientConfig.database = _databaseName;
+        if (parsedConnectionStr.hostname) {
+          _clientConfig.server = parsedConnectionStr.hostname;
+        } else {
+          _clientConfig.server = DEFAULT_HOST;
         }
+
+        // Parse user & password
+        if (parsedConnectionStr.auth && _.isString(parsedConnectionStr.auth)) {
+          var authPieces = parsedConnectionStr.auth.split(/:/);
+          if (authPieces[0]) {
+            _clientConfig.user = authPieces[0];
+          }
+          if (authPieces[1]) {
+            _clientConfig.password = authPieces[1];
+          }
+        }
+
+        // Parse database name
+        if (_.isString(parsedConnectionStr.pathname)) {
+          var _databaseName = parsedConnectionStr.pathname;
+
+          // Trim leading and trailing slashes
+          _databaseName = _databaseName.replace(/^\/+/, '');
+          _databaseName = _databaseName.replace(/\/+$/, '');
+
+          // If anything is left, use it as the database name.
+          if (_databaseName) {
+            _clientConfig.database = _databaseName;
+          }
+        }
+      } catch (_e) {
+        _e.message = util.format('Provided value (`%s`) is not a valid MsSql connection string.', inputs.connectionString) + ' Error details: ' + _e.message;
+        return exits.malformed({
+          error: _e,
+          meta: inputs.meta
+        });
       }
-    } catch (_e) {
-      _e.message = util.format('Provided value (`%s`) is not a valid Postgres connection string.', inputs.connectionString) + ' Error details: ' + _e.message;
-      return exits.malformed({
-        error: _e,
-        meta: inputs.meta
-      });
     }
 
     // Create a connection pool.
     //
-    // More about using pools with node-pg:
-    //  • https://github.com/brianc/node-pg-pool
-    var pool = new pg.Pool(_clientConfig);
+    //  • https://tediousjs.github.io/node-mssql/#connections-1
+    var pool = new mssql.ConnectionPool(_clientConfig);
 
     // Bind an "error" handler in order to handle errors from connections in the pool,
-    // or from the pool itself. Otherwise, without any further protection, if any Postgres
+    // or from the pool itself. Otherwise, without any further protection, if any Mssql
     // connections in the pool die, then the process would crash with an error.
     //
     // For more background, see:
-    //  • https://github.com/brianc/node-pg-pool#error
+    //  • https://tediousjs.github.io/node-mssql/#connections-1
     pool.on('error', function error(err) {
       // When/if something goes wrong in this pool, call the `onUnexpectedFailure` notifier
       // (if one was provided)
       if (!_.isUndefined(inputs.onUnexpectedFailure)) {
-        inputs.onUnexpectedFailure(err || new Error('One or more pooled connections to Postgres database were lost. Did the database server go offline?'));
+        inputs.onUnexpectedFailure(err || new Error('One or more pooled connections to Mssql database were lost. Did the database server go offline?'));
       }
     });
 
-    // Finally, build and return the manager.
-    var mgr = {
-      pool: pool,
-      connectionString: inputs.connectionString
-    };
+    pool.connect().then(() => {
+      // Finally, build and return the manager.
+      var mgr = {
+        pool: pool,
+        connectionString: inputs.connectionString
+      };
 
-    return exits.success({
-      manager: mgr,
-      meta: inputs.meta
+      return exits.success({
+        manager: mgr,
+        meta: inputs.meta
+      });
+    }).catch(err => {
+      return exits.failed({
+        error: err,
+        meta: inputs.meta
+      });
     });
   }
-
 
 };

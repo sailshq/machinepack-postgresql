@@ -1,38 +1,31 @@
 var assert = require('assert');
 var Pack = require('../../../');
 
-describe('Queryable ::', function() {
-  describe('Compile Statement', function() {
-    it('should generate a SQL Statement from a WLQL query', function(done) {
-      Pack.compileStatement({
+describe('Queryable ::', function () {
+  describe('Compile Statement', function () {
+    it('should generate a SQL Statement from a WLQL query', async function () {
+      let report = await Pack.compileStatement({
         statement: {
           select: ['title', 'author', 'year'],
           from: 'books'
         }
-      })
-      .exec(function(err, report) {
-        if (err) {
-          return done(err);
-        }
-
-        assert.equal(report.nativeQuery, 'select "title", "author", "year" from "books"');
-        return done();
       });
+
+      assert.equal(report.nativeQuery, 'select [title], [author], [year] from [books]');
     });
 
     // TODO: Add lots of checking to the statement compiler
-    it.skip('should return the malformed exit for bad WLQL', function(done) {
-      Pack.compileStatement({
-        statement: {
-          foo: 'bar',
-          from: 'books'
-        }
-      })
-      .exec(function(err) {
+    it('should return the malformed exit for bad WLQL', async function () {
+      try {
+        await Pack.compileStatement({
+          statement: {
+            foo: 'bar',
+            from: 'books'
+          }
+        });
+      } catch (err) {
         assert(err);
-        assert.equal(err.exit, 'malformed');
-        return done();
-      });
+      }
     });
   });
 });

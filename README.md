@@ -1,48 +1,36 @@
 <h1>
   <a href="http://node-machine.org" title="Node-Machine public registry"><img alt="node-machine logo" title="Node-Machine Project" src="http://node-machine.org/images/machine-anthropomorph-for-white-bg.png" width="50" /></a>
-  machinepack-postgresql
+  machinepack-mssql
 </h1>
 
-Run queries against a PostgreSQL database.
+Structured Node.js bindings for MSSQL.
 
-Visit [Waterline Driver Interface project](https://github.com/node-machine/driver-interface) for more background information about this package.
+> See https://github.com/node-machine/driver-interface for more background information about this package.
 
 
-## Installation &nbsp; [![NPM version](https://badge.fury.io/js/machinepack-postgresql.svg)](http://badge.fury.io/js/machinepack-postgresql) [![Build Status](https://travis-ci.org/sailshq/machinepack-postgresql.png?branch=master)](https://travis-ci.org/sailshq/machinepack-postgresql)
+## Installation
 
 ```sh
-$ npm install machinepack-postgresql --save
+$ npm install @vijaykonnackal/machinepack-mssql
 ```
-
-
-## Usage
-
-For the latest usage documentation, version information, and test status of this module, see <a href="http://node-machine.org/machinepack-postgresql" title="Structured Node.js bindings for postgresql. (for node.js)">machinepack-postgresql homepage</a>.  The generated manpage for each method contains a complete reference of all expected inputs, possible exit states, and example return values.
-
 
 ## Help
 
-For more examples, or if you get stuck or have questions, click [here](http://sailsjs.com/support).
+For more examples, or if you get stuck or have questions, click [here](https://github.com/vijaykonnackal/machinepack-sqlserver/issues).
 
+## Bugs &nbsp; 
 
-## Bugs &nbsp; [![NPM version](https://badge.fury.io/js/machinepack-postgresql.svg)](http://npmjs.com/package/machinepack-postgresql)
-
-To report a bug, [click here](http://sailsjs.com/bugs).
-
-
-## Contributing &nbsp; [![Build Status](https://travis-ci.org/sailshq/machinepack-postgresql.svg?branch=master)](https://travis-ci.org/sailshq/machinepack-postgresql)
-
-Please observe the guidelines and conventions laid out in the [Sails project contribution guide](http://sailsjs.com/contribute) when opening issues or submitting pull requests.
-
-[![NPM](https://nodei.co/npm/machinepack-postgresql.png?downloads=true)](http://npmjs.com/package/machinepack-postgresql)
+To report a bug, add an [issue](https://github.com/vijaykonnackal/machinepack-sqlserver/issues) in github.
 
 ## Acknowledgements
 
-Thanks to [@brianc](https://github.com/brianc) for all of his fantastic work on the [`pg`](http://npmjs.com/package/pg) package!
+This module is largely a port of the [machinepack-postgresql](https://github.com/sailshq/machinepack-postgresql) module. 
+
+In addition, the work done by Dave Preston [machinepack-mssql](https://github.com/intel/machinepack-mssql) has 
+been used in this repo.
 
 ## License
 
-MIT &copy; 2015-2017 The Sails Company
+MIT
 
-This package, like the [Sails framework](http://sailsjs.com), is free and open-source under the [MIT License](http://sailsjs.com/license).
-
+This package is free and open-source under the MIT License.
