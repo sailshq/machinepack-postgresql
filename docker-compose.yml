@@ -1,12 +1,19 @@
-adapter:
-  build: .
-  volumes:
-   - .:/usr/src/app
-  links:
-   - mssql
-postgres:
-  image: mssql:2017
-  environment:
-   - MSSQL_PASSWORD=sails
-   - MSSQL_USER=sails
-   - MSSQL_DB=sails-test
+version: "3"
+
+services:
+  machinepack-mssql:
+    build:
+      context: .
+    environment:
+      - SA_PASSWORD
+      - MSSQL_HOST=sqlserver
+      - MSSQL_PORT=1433
+      - MSSQL_USER=sa
+      - MSSQL_PASSWORD=${SA_PASSWORD}
+      - MSSQL_DB=sails-test
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    environment:
+      - ACCEPT_EULA='Y'
+      - SA_PASSWORD

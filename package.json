@@ -6,8 +6,7 @@
     "test": "node ./node_modules/mocha/bin/mocha test/integration --recursive",
     "fasttest": "node ./node_modules/mocha/bin/mocha test/integration --recursive",
     "pretest": "npm run lint",
-    "lint": "node ./node_modules/eslint/bin/eslint *.js **/*.js",
-    "docker": "docker-compose run adapter bash",
+    "lint": "node ./node_modules/eslint/bin/eslint *.js test/**.js machines/**.js",
     "benchmark": "node ./node_modules/mocha/bin/mocha test/benchmarks --recursive",
     "release": "np"
   },
@@ -30,9 +29,10 @@
     "np": "*"
   },
   "devDependencies": {
-    "eslint": "^6.6.0",
+    "eslint": "6.6.0",
     "benchmark": "^2.1.4",
-    "mocha": "^6.2.2"
+    "mocha": "^6.2.2",
+    "mssql": "^5.1.0"
   },
   "machinepack": {
     "friendlyName": "MsSql",
