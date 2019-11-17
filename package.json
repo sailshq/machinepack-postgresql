@@ -12,6 +12,7 @@
   },
   "keywords": [
     "mssql",
+    "sqlserver",
     "driver",
     "waterline",
     "sails",

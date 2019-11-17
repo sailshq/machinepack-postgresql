@@ -16,6 +16,20 @@ Structured Node.js bindings for MSSQL.
 $ npm install machinepack-sqlserver
 ```
 
+## Running Test
+The repo is configured to run all the tests in Docker containers. The composition uses two container
+1. Public sql server 2017 container published by Microsoft
+2. An container for testing the package based on official Node 10 release
+
+To run the tests in docker env
+
+```sh
+$ docker-compose up
+``` 
+
+The github repo is configure to run the tests in Travis-CI on code push. The status of the build can be seen at the top of
+the repo
+
 ## Help
 
 For more examples, or if you get stuck or have questions, click [here](https://github.com/vijaykonnackal/machinepack-sqlserver/issues).
