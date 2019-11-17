@@ -3,7 +3,7 @@
   machinepack-mssql   
 </h1>
 
-[![Build Status](https://travis-ci.org/vijaykonnackal/machinepack-mssql.svg?branch=master)](https://travis-ci.org/vijaykonnackal/machinepack-mssql)
+[![Build Status](https://travis-ci.org/vijaykonnackal/machinepack-sqlserver.svg?branch=master)](https://travis-ci.org/vijaykonnackal/machinepack-sqlserver)
 
 Structured Node.js bindings for MSSQL.
 
@@ -13,7 +13,7 @@ Structured Node.js bindings for MSSQL.
 ## Installation
 
 ```sh
-$ npm install @vijaykonnackal/machinepack-mssql
+$ npm install machinepack-sqlserver
 ```
 
 ## Help
