@@ -1,6 +1,5 @@
 // Dependencies
 var _ = require('@sailshq/lodash');
-const util = require('util');
 
 module.exports = {
 
@@ -84,14 +83,14 @@ module.exports = {
       // Now manually extract the relevant bits of the error message
       // to build our footprint's `keys` property:
       footprint.keys = [];
-      if (_.isString(err.message)) {
-        let pattern = /Violation .* UNIQUE KEY constraint '(.+?)'.*? duplicate key .*? '(.+?)'.*? duplicate key value.+? (\(.+?\))./gm;
-        let matches = pattern.exec(err.message);
-        if (matches && _.isArray(matches) && _.isString(matches[1])) {
-          let info = util.format('Constraint=%s, table=%s, value=%s', matches[1], matches[2], matches[3]);
-          footprint.keys.push(info);
-        }
-      }
+      // if (_.isString(err.message)) {
+      //   let pattern = /Violation .* UNIQUE KEY constraint '(.+?)'.*? duplicate key .*? '(.+?)'.*? duplicate key value.+? (\(.+?\))./gm;
+      //   let matches = pattern.exec(err.message);
+      //   if (matches && _.isArray(matches) && _.isString(matches[1])) {
+      //     let info = util.format('Constraint=%s, table=%s, value=%s', matches[1], matches[2], matches[3]);
+      //     footprint.keys.push(info);
+      //   }
+      // }
     }
 
     return exits.success({
