@@ -24,6 +24,10 @@ describe('Connectable ::', function() {
       });
     });
 
+    after(function(done) {
+      manager.pool.end(done);
+    });
+
     it('should successfully return a PG Client instance', function(done) {
       Pack.getConnection({
         manager: manager
@@ -39,8 +43,9 @@ describe('Connectable ::', function() {
         // Assert that a PG Client is returned
         assert(report.connection instanceof pg.Client);
 
-        // Assert that the connection has a release function
-        assert(report.connection.release);
+        // Assert that the connection has a release function, and call it to
+        // release the connection.
+        report.connection.release();
 
         return done();
       });
