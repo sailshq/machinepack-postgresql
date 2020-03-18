@@ -42,10 +42,7 @@ describe('Connectable ::', function() {
 
         // Assert that a PG Client is returned
         assert(report.connection instanceof pg.Client);
-
-        // Assert that the connection has a release function, and call it to
-        // release the connection.
-        report.connection.release();
+        assert('function' === typeof report.connection.release);
 
         return done();
       });
