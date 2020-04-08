@@ -70,7 +70,7 @@ describe('Connectable ::', function () {
         }
       });
       assert.ok(report.manager);
-      assert.equal(25, report.manager.pool.pool._config.max);
+      assert.equal(25, report.manager.pool.pool.max);
 
       await Pack.destroyManager({
         manager: report.manager
