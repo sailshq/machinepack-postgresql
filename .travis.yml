@@ -5,18 +5,17 @@ node_js:
 
 env:
   global:
-    - SA_PASSWORD=Password1
     - MSSQL_HOST=localhost
     - MSSQL_PORT=1433
     - MSSQL_USER=sa
-    - MSSQL_PASSWORD=Password1
+    - MSSQL_PASSWORD=${SA_PASSWORD}
     - MSSQL_DB=sails-test
 
 services:
   - docker
 
 before_script:
-  - sudo docker run --name=mssql-server-2017-latest-ubuntu -e "ACCEPT_EULA=Y" -e SA_PASSWORD=Password1 -p 1433:1433 -d mcr.microsoft.com/mssql/server:2017-latest-ubuntu
-  - sudo docker cp test/docker mssql-server-2017-latest-ubuntu:/machinepack-sqlserver
-  - sudo docker exec -it mssql-server-2017-latest-ubuntu /bin/bash -c 'chmod 777 /machinepack-sqlserver/*.sh'
-  - sudo docker exec -it mssql-server-2017-latest-ubuntu /machinepack-sqlserver/wait-for-it.sh -t 120 localhost:1433 -- /machinepack-sqlserver/travis-test.sh
+  - sudo docker run --name=sqlserver -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=$SA_PASSWORD" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+  - sudo docker cp test/docker/. sqlserver:/tmp
+  - sudo docker exec -it sqlserver /bin/bash -c 'chmod 777 /tmp/*.sh'
+  - sudo docker exec -it sqlserver /tmp/wait-for-it.sh -t 120 localhost:1433 -- /tmp/travis-test.sh
