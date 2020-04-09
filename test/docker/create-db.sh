@@ -1,3 +1,4 @@
 
-/tmp/wait-for-it.sh localhost:1433 -t 120 -- echo 'sqlserver up-$SA_PASSWORD'
+/tmp/wait-for-it.sh localhost:1433 -t 120 -- echo "sqlserver up-$SA_PASSWORD"
+echo "password=$SA_PASSWORD"
 /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Password1 -d master -i /tmp/sqlserver.setup.sql
