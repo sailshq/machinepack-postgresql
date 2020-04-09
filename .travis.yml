@@ -1,7 +1,9 @@
+dist: bionic
+
 language: node_js
 
 node_js:
-  - 10
+  - 12
 
 env:
   global:
@@ -15,8 +17,13 @@ env:
 services:
   - docker
 
+before_install:
+  - curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+  - curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list | sudo tee /etc/apt/sources.list.d/msprod.list
+  - sudo apt-get update
+  - sudo apt-get install mssql-tools unixodbc-dev
+
 before_script:
+  - sudo chmod 777 test/docker/*.sh
   - sudo docker run --name=sqlserver -e ACCEPT_EULA=Y -e SA_PASSWORD=Password1 -p 1433:1433 -d mcr.microsoft.com/mssql/server:2017-latest-ubuntu
-  - sudo docker cp test/docker/. sqlserver:/tmp
-  - sudo docker exec -it sqlserver /bin/bash -c 'chmod 777 /tmp/*.sh'
-  - sudo docker exec -it sqlserver /tmp/wait-for-it.sh -t 120 localhost:1433 -- /tmp/travis-test.sh
+  - sudo test/docker/wait-for-it.sh -t 120 localhost:1433 -- test/docker/travis-test.sh
