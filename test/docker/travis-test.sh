@@ -6,6 +6,7 @@ echo "{\"user\":\"sa\", \"password\":\"$SA_PASSWORD\", \"server\": \"$MSSQL_HOST
 
 cat .mssql.json
 
+which node
 node --version
 
 ./node_modules/mssql/bin/mssql < test/docker/sqlserver.setup.sql
