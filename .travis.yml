@@ -23,4 +23,7 @@ before_script:
   - docker cp test/docker/sqlserver.setup.sql sqlserver:/tmp
   - docker cp test/docker/wait-for-it.sh sqlserver:/tmp
   - docker exec -it -u root sqlserver sh -c 'chmod 777 /tmp/*.sh'
+  - sudo chmod +x test/docker/wait-for-it.sh
+  - ./test/docker/wait-for-it.sh localhost:1433 -t 120 -- echo "Sqlserver Up"
+  - echo "sap=$SA_PASSWORD"
   - docker exec -it -e SA_PASSWORD=$SA_PASSWORD sqlserver sh -c /tmp/create-db.sh
