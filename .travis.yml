@@ -5,10 +5,11 @@ node_js:
 
 env:
   global:
+    - SA_PASSWORD=Password1
     - MSSQL_HOST=localhost
     - MSSQL_PORT=1433
     - MSSQL_USER=sa
-    - MSSQL_PASSWORD=${SA_PASSWORD}
+    - MSSQL_PASSWORD=Password1
     - MSSQL_DB=sails-test
 
 services:
