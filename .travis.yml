@@ -18,8 +18,6 @@ services:
   - docker
 
 before_script:
-  - echo "{\"user\":\"sa\", \"password\":\"$SA_PASSWORD\", \"server\": \"$MSSQL_HOST\", \"database\":\"master\"}" \
-      > .mssql.json
-  - cat .mssql.json
+  - sudo chmod 777 test/docker/*.sh
   - sudo docker run --name=sqlserver -e ACCEPT_EULA=Y -e SA_PASSWORD=Password1 -p 1433:1433 -d mcr.microsoft.com/mssql/server:2017-latest-ubuntu
-  - sudo test/docker/wait-for-it.sh -t 120 localhost:1433 -- node_modules/mssql/bin/mssql < sqlserver.setup.sql
+  - sudo test/docker/wait-for-it.sh -t 120 localhost:1433 -- test/docker/travis-test.sh
