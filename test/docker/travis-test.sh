@@ -8,4 +8,4 @@ cat .mssql.json
 
 node --version
 
-exec ./node_modules/mssql/bin/mssql < test/docker/sqlserver.setup.sql
+./node_modules/mssql/bin/mssql < test/docker/sqlserver.setup.sql
