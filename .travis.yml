@@ -17,13 +17,9 @@ env:
 services:
   - docker
 
-before_install:
-  - curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-  - curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list | sudo tee /etc/apt/sources.list.d/msprod.list
-  - sudo apt-get update
-  - sudo ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev
-
 before_script:
-  - sudo chmod 777 test/docker/*.sh
+  - echo "{\"user\":\"sa\", \"password\":\"$SA_PASSWORD\", \"server\": \"$MSSQL_HOST\", \"database\":\"master\"}" \
+      > .mssql.json
+  - cat .mssql.json
   - sudo docker run --name=sqlserver -e ACCEPT_EULA=Y -e SA_PASSWORD=Password1 -p 1433:1433 -d mcr.microsoft.com/mssql/server:2017-latest-ubuntu
-  - sudo test/docker/wait-for-it.sh -t 120 localhost:1433 -- test/docker/travis-test.sh
+  - sudo test/docker/wait-for-it.sh -t 120 localhost:1433 -- node_modules/mssql/bin/mssql < sqlserver.setup.sql
