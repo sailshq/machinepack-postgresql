@@ -18,9 +18,10 @@ services:
   - docker
 
 before_script:
-  - sudo chmod 777 test/docker/*.sh
-  - sudo ln -s /usr/bin/nodejs /usr/bin/node
-  - which node
-  - node --version
-  - docker run --name=sqlserver -e ACCEPT_EULA=Y -e SA_PASSWORD=Password1 -p 1433:1433 -d mcr.microsoft.com/mssql/server:2017-latest-ubuntu
-  - test/docker/wait-for-it.sh -t 120 localhost:1433 -- test/docker/travis-test.sh
+  - docker run -d -e ACCEPT_EULA=Y -e SA_PASSWORD=Password1 -p 1433:1433 --name=sqlserver mcr.microsoft.com/mssql/server
+  - sleep 60s
+  - docker cp test/docker/create-db.sh sqlserver:/tmp/
+  - docker cp test/docker/sqlserver.setup.sql sqlserver:/tmp
+  - docker cp test/docker/wait-for-it.sh sqlserver:/tmp
+  - docker exec -it -e SA_PASSWORD=Password1 sqlserver sh -c /tmp/create-db.sh
+
