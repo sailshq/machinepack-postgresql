@@ -11,17 +11,17 @@ env:
     - MSSQL_HOST=localhost
     - MSSQL_PORT=1433
     - MSSQL_USER=sa
-    - MSSQL_PASSWORD=Password1
+    - MSSQL_PASSWORD=${SA_PASSWORD}
     - MSSQL_DB=sails-test
 
 services:
   - docker
 
 before_script:
-  - docker run -d -e ACCEPT_EULA=Y -e SA_PASSWORD=Password1 -p 1433:1433 --name=sqlserver mcr.microsoft.com/mssql/server
+  - docker run -d -e ACCEPT_EULA=Y -e SA_PASSWORD=$SA_PASSWORD -p 1433:1433 --name=sqlserver mcr.microsoft.com/mssql/server
   - sleep 60s
   - docker cp test/docker/create-db.sh sqlserver:/tmp/
   - docker cp test/docker/sqlserver.setup.sql sqlserver:/tmp
   - docker cp test/docker/wait-for-it.sh sqlserver:/tmp
   - docker exec -it -u root sqlserver sh -c 'chmod 777 /tmp/*.sh'
-  - docker exec -it -u root -e SA_PASSWORD=Password1 sqlserver sh -c /tmp/create-db.sh
+  - docker exec -it -u root -e SA_PASSWORD=$SA_PASSWORD sqlserver sh -c /tmp/create-db.sh
