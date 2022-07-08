@@ -21,11 +21,11 @@
   "author": "The Sails Company",
   "license": "MIT",
   "dependencies": {
-    "debug": "2.2.0",
+    "debug": "2.6.9",
     "@sailshq/lodash": "^3.10.2",
     "machine": "^15.0.0-21",
     "pg": "8.3.0",
-    "waterline-sql-builder": "^2.0.0"
+    "waterline-sql-builder": "3.0.0"
   },
   "devDependencies": {
     "eslint": "3.5.0",
