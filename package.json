@@ -24,7 +24,7 @@
     "debug": "2.6.9",
     "@sailshq/lodash": "^3.10.2",
     "machine": "^15.0.0-21",
-    "pg": "8.3.0",
+    "pg": "8.11.0",
     "waterline-sql-builder": "^3.0.1"
   },
   "devDependencies": {
