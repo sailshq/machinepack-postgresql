@@ -46,3 +46,4 @@ MIT &copy; 2015-2017 The Sails Company
 
 This package, like the [Sails framework](http://sailsjs.com), is free and open-source under the [MIT License](http://sailsjs.com/license).
 
+
